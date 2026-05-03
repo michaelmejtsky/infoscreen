@@ -2,25 +2,19 @@
 <html>
 <head>
   <meta charset="UTF-8">
-  <title>Dashboard Login</title>
+  <title>Dashboard Zugang</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <style>
-    html, body {
+    body {
       margin:0;
-      padding:0;
-      width:100%;
-      height:100%;
-      background:#111;
-      font-family:Arial, sans-serif;
-    }
-
-    .login {
       height:100vh;
+      background:#111;
+      color:white;
+      font-family:Arial, sans-serif;
       display:flex;
       align-items:center;
       justify-content:center;
-      color:white;
     }
 
     .box {
@@ -37,7 +31,6 @@
       font-size:22px;
       width:120px;
       text-align:center;
-      margin-top:10px;
       background:#222;
       color:white;
       border:1px solid #555;
@@ -54,41 +47,28 @@
       border-radius:8px;
       cursor:pointer;
     }
-
-    iframe {
-      width:100%;
-      height:100vh;
-      border:none;
-      display:none;
-      background:#111;
-    }
   </style>
 </head>
 
 <body>
 
-<div id="login" class="login">
-  <div class="box">
-    <h2>Dashboard Zugang</h2>
-    <p>Bitte Code eingeben</p>
+<div class="box">
+  <h2>Dashboard Zugang</h2>
+  <p>Bitte Code eingeben</p>
 
-    <input id="code" type="password" maxlength="4" placeholder="****">
-    <br>
-    <button onclick="checkCode()">Öffnen</button>
-  </div>
+  <input id="code" type="password" maxlength="4" placeholder="****">
+  <br>
+  <button onclick="checkCode()">Öffnen</button>
 </div>
 
-<iframe id="dashboardFrame"
-  src="https://script.google.com/macros/s/AKfycbzIK2vHhPuGnLTiaD9kkSpIMVZ9qPIhe4T23aZiQQjQrSqFWxDbViinHfSbHWSK_dea/exec">
-</iframe>
-
 <script>
+const DASHBOARD_URL = "https://script.google.com/macros/s/AKfycbzIK2vHhPuGnLTiaD9kkSpIMVZ9qPIhe4T23aZiQQjQrSqFWxDbViinHfSbHWSK_dea/exec";
+
 function checkCode() {
   const code = document.getElementById("code").value;
 
   if (code === "3100") {
-    document.getElementById("login").style.display = "none";
-    document.getElementById("dashboardFrame").style.display = "block";
+    window.location.href = DASHBOARD_URL;
   } else {
     alert("Falscher Code!");
   }
