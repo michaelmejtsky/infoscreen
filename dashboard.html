@@ -1,35 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Dashboard Login</title>
+
+  <style>
+    body {
+      margin:0;
+      font-family: Arial;
+      background:#111;
+      color:white;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      height:100vh;
+    }
+
+    .box {
+      background:#1c1c1c;
+      padding:30px;
+      border-radius:10px;
+      text-align:center;
+    }
+
+    input {
+      padding:10px;
+      font-size:18px;
+      width:120px;
+      text-align:center;
+      margin-top:10px;
+    }
+
+    button {
+      margin-top:15px;
+      padding:10px 20px;
+      font-size:16px;
+      background:#0066cc;
+      color:white;
+      border:none;
+      border-radius:6px;
+      cursor:pointer;
+    }
+  </style>
+</head>
+
+<body>
+
+<div class="box">
+  <h2>Zugang Dashboard</h2>
+  <p>Bitte Code eingeben</p>
+
+  <input id="code" type="password" maxlength="4" placeholder="****">
+  <br>
+  <button onclick="check()">OK</button>
+</div>
+
 <script>
-const DASHBOARD_CODE = "3100";
+function check() {
+  const code = document.getElementById("code").value;
 
-(function () {
-  const ok = sessionStorage.getItem("dashboard_access_ok");
-
-  if (ok === "true") return;
-
-  const input = prompt("Bitte Zugangscode eingeben:");
-
-  if (input === DASHBOARD_CODE) {
-    sessionStorage.setItem("dashboard_access_ok", "true");
+  if (code === "3100") {
+    // 👉 HIER passiert die Weiterleitung zum Dashboard
+    window.location.href = "./";
   } else {
-    document.addEventListener("DOMContentLoaded", function () {
-      document.body.innerHTML = `
-        <div style="
-          min-height:100vh;
-          background:#111;
-          color:white;
-          display:flex;
-          align-items:center;
-          justify-content:center;
-          font-family:Arial,sans-serif;
-          text-align:center;
-        ">
-          <div>
-            <h1>Zugriff verweigert</h1>
-            <p>Der eingegebene Code ist falsch.</p>
-          </div>
-        </div>
-      `;
-    });
+    alert("Falscher Code!");
   }
-})();
+}
 </script>
+
+</body>
+</html>
