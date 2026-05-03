@@ -1,1 +1,35 @@
+<script>
+const DASHBOARD_CODE = "3100";
 
+(function () {
+  const ok = sessionStorage.getItem("dashboard_access_ok");
+
+  if (ok === "true") return;
+
+  const input = prompt("Bitte Zugangscode eingeben:");
+
+  if (input === DASHBOARD_CODE) {
+    sessionStorage.setItem("dashboard_access_ok", "true");
+  } else {
+    document.addEventListener("DOMContentLoaded", function () {
+      document.body.innerHTML = `
+        <div style="
+          min-height:100vh;
+          background:#111;
+          color:white;
+          display:flex;
+          align-items:center;
+          justify-content:center;
+          font-family:Arial,sans-serif;
+          text-align:center;
+        ">
+          <div>
+            <h1>Zugriff verweigert</h1>
+            <p>Der eingegebene Code ist falsch.</p>
+          </div>
+        </div>
+      `;
+    });
+  }
+})();
+</script>
