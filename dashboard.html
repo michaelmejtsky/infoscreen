@@ -3,69 +3,100 @@
 <head>
   <meta charset="UTF-8">
   <title>Dashboard Login</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <style>
-    body {
+    html, body {
       margin:0;
-      font-family: Arial;
+      padding:0;
+      width:100%;
+      height:100%;
       background:#111;
-      color:white;
+      font-family:Arial, sans-serif;
+    }
+
+    .login {
+      height:100vh;
       display:flex;
       align-items:center;
       justify-content:center;
-      height:100vh;
+      color:white;
     }
 
     .box {
       background:#1c1c1c;
       padding:30px;
-      border-radius:10px;
+      border-radius:14px;
       text-align:center;
+      border:1px solid #333;
+      box-shadow:0 0 20px rgba(0,0,0,0.6);
     }
 
     input {
-      padding:10px;
-      font-size:18px;
+      padding:12px;
+      font-size:22px;
       width:120px;
       text-align:center;
       margin-top:10px;
+      background:#222;
+      color:white;
+      border:1px solid #555;
+      border-radius:8px;
     }
 
     button {
       margin-top:15px;
-      padding:10px 20px;
+      padding:10px 24px;
       font-size:16px;
       background:#0066cc;
       color:white;
       border:none;
-      border-radius:6px;
+      border-radius:8px;
       cursor:pointer;
+    }
+
+    iframe {
+      width:100%;
+      height:100vh;
+      border:none;
+      display:none;
+      background:#111;
     }
   </style>
 </head>
 
 <body>
 
-<div class="box">
-  <h2>Zugang Dashboard</h2>
-  <p>Bitte Code eingeben</p>
+<div id="login" class="login">
+  <div class="box">
+    <h2>Dashboard Zugang</h2>
+    <p>Bitte Code eingeben</p>
 
-  <input id="code" type="password" maxlength="4" placeholder="****">
-  <br>
-  <button onclick="check()">OK</button>
+    <input id="code" type="password" maxlength="4" placeholder="****">
+    <br>
+    <button onclick="checkCode()">Öffnen</button>
+  </div>
 </div>
 
+<iframe id="dashboardFrame"
+  src="https://script.google.com/macros/s/AKfycbzIK2vHhPuGnLTiaD9kkSpIMVZ9qPIhe4T23aZiQQjQrSqFWxDbViinHfSbHWSK_dea/exec">
+</iframe>
+
 <script>
-function check() {
+function checkCode() {
   const code = document.getElementById("code").value;
 
   if (code === "3100") {
-    // 👉 HIER passiert die Weiterleitung zum Dashboard
-    window.location.href = "./";
+    document.getElementById("login").style.display = "none";
+    document.getElementById("dashboardFrame").style.display = "block";
   } else {
     alert("Falscher Code!");
   }
 }
+
+document.getElementById("code").addEventListener("keydown", function(e) {
+  if (e.key === "Enter") checkCode();
+});
 </script>
 
 </body>
