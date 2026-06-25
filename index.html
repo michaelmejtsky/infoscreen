@@ -7,125 +7,81 @@
 
   <style>
     html, body {
-      margin: 0;
-      padding: 0;
-      width: 100%;
-      height: 100%;
-      background: #000;
-      overflow: hidden;
-      font-family: Arial, Helvetica, sans-serif;
+      margin: 0; padding: 0; width: 100%; height: 100%;
+      background: #000; overflow: hidden; font-family: Arial, Helvetica, sans-serif;
     }
 
     iframe {
-      position: fixed;
-      inset: 0;
-      width: 100%;
-      height: 100%;
-      border: none;
-      display: block;
-      background: #000;
+      position: fixed; inset: 0; width: 100%; height: 100%;
+      border: none; display: block; background: #000; z-index: 1;
     }
 
     #offlineFallback {
-      position: fixed;
-      inset: 0;
-      z-index: 999999;
-      display: none;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
+      position: fixed; inset: 0; z-index: 999999; display: none;
+      align-items: center; justify-content: center; text-align: center;
       background: radial-gradient(circle at center, #10235a 0%, #07152f 55%, #020816 100%);
       color: #ffffff;
     }
 
     .offline-card {
-      width: 760px;
-      max-width: 82vw;
-      padding: 55px;
-      border-radius: 22px;
+      width: 760px; max-width: 82vw; padding: 55px; border-radius: 22px;
       background: rgba(5, 17, 45, 0.84);
       border: 2px solid rgba(0, 234, 255, 0.45);
-      box-shadow:
-        0 0 30px rgba(0, 234, 255, 0.25),
-        0 0 90px rgba(0, 234, 255, 0.15);
+      box-shadow: 0 0 30px rgba(0, 234, 255, 0.25), 0 0 90px rgba(0, 234, 255, 0.15);
     }
 
     .offline-logo {
-      width: 105px;
-      height: 105px;
-      object-fit: contain;
-      margin-bottom: 28px;
+      width: 105px; height: 105px; object-fit: contain; margin-bottom: 28px;
       filter: drop-shadow(0 0 15px rgba(0, 234, 255, 0.45));
     }
 
     .offline-title {
-      font-size: 37px;
-      line-height: 1.25;
-      font-weight: 900;
-      color: #00eaff;
-      margin-bottom: 18px;
+      font-size: 37px; line-height: 1.25; font-weight: 900;
+      color: #00eaff; margin-bottom: 18px;
     }
 
     .offline-subtitle {
-      font-size: 27px;
-      font-weight: 800;
-      color: #ffffff;
-      margin-bottom: 22px;
+      font-size: 27px; font-weight: 800; color: #ffffff; margin-bottom: 22px;
     }
 
     .offline-small {
-      font-size: 18px;
-      line-height: 1.45;
-      color: #d9faff;
-      opacity: 0.92;
-      margin-bottom: 30px;
+      font-size: 18px; line-height: 1.45; color: #d9faff;
+      opacity: 0.92; margin-bottom: 30px;
     }
 
     .spinner {
-      margin: 0 auto;
-      width: 42px;
-      height: 42px;
-      border-radius: 50%;
+      margin: 0 auto; width: 42px; height: 42px; border-radius: 50%;
       border: 5px solid rgba(255, 255, 255, 0.25);
       border-top: 5px solid #00eaff;
       animation: spin 1s linear infinite;
     }
 
-    @keyframes spin {
-      100% {
-        transform: rotate(360deg);
-      }
-    }
+    @keyframes spin { 100% { transform: rotate(360deg); } }
 
     .last {
-      margin-top: 26px;
-      font-size: 14px;
-      line-height: 1.5;
-      color: #cfefff;
-      opacity: 0.8;
+      margin-top: 26px; font-size: 14px; line-height: 1.5;
+      color: #cfefff; opacity: 0.8;
     }
 
     #debugPanel {
-      position: fixed;
-      right: 14px;
-      bottom: 14px;
-      z-index: 1000000;
-      display: none;
-      gap: 8px;
-      background: rgba(0, 0, 0, 0.55);
-      padding: 10px;
-      border-radius: 12px;
-      border: 1px solid rgba(0, 234, 255, 0.4);
+      position: fixed; right: 14px; bottom: 14px; z-index: 1000000;
+      display: none; gap: 8px; background: rgba(0, 0, 0, 0.55);
+      padding: 10px; border-radius: 12px; border: 1px solid rgba(0, 234, 255, 0.4);
     }
 
     #debugPanel button {
-      border: none;
-      border-radius: 9px;
-      padding: 9px 12px;
-      font-weight: 800;
-      cursor: pointer;
-      background: #00eaff;
-      color: #06122b;
+      border: none; border-radius: 9px; padding: 9px 12px;
+      font-weight: 800; cursor: pointer; background: #00eaff; color: #06122b;
+    }
+
+    #statusDebug {
+      position: fixed; left: 14px; bottom: 14px; z-index: 1000001;
+      display: none; max-width: 560px;
+      background: rgba(0,0,0,.78); color: #00eaff;
+      border: 1px solid rgba(0,234,255,.55);
+      border-radius: 12px; padding: 12px 14px;
+      font-size: 13px; line-height: 1.45; text-align: left;
+      font-family: Consolas, monospace; word-break: break-all;
     }
   </style>
 </head>
@@ -144,26 +100,11 @@
         src="https://drive.google.com/thumbnail?id=11OnUfELMcLBj_VPiqKXqu1nIAZHXg_Pb&sz=w400"
         alt="Feuerwehr St. Pölten Stadt">
 
-      <div class="offline-title">
-        Derzeit gibt es<br>
-        Verbindungsschwierigkeiten.
-      </div>
-
-      <div class="offline-subtitle">
-        Wir arbeiten bereits an der Problembehebung.
-      </div>
-
-      <div class="offline-small">
-        Die Anzeige wird automatisch wiederhergestellt,<br>
-        sobald die Verbindung verfügbar ist.
-      </div>
-
+      <div class="offline-title">Derzeit gibt es<br>Verbindungsschwierigkeiten.</div>
+      <div class="offline-subtitle">Wir arbeiten bereits an der Problembehebung.</div>
+      <div class="offline-small">Die Anzeige wird automatisch wiederhergestellt,<br>sobald die Verbindung verfügbar ist.</div>
       <div class="spinner"></div>
-
-      <div class="last" id="lastConnection">
-        Letzte erfolgreiche Verbindung:<br>
-        wird ermittelt …
-      </div>
+      <div class="last" id="lastConnection">Letzte erfolgreiche Verbindung:<br>wird ermittelt …</div>
     </div>
   </div>
 
@@ -171,7 +112,10 @@
     <button onclick="showOfflineTest()">Offline testen</button>
     <button onclick="endOfflineTest()">Zurück</button>
     <button onclick="reloadDashboard()">Neu laden</button>
+    <button onclick="checkGlobalFallbackStatus()">Status prüfen</button>
   </div>
+
+  <div id="statusDebug">Statusdiagnose wird geladen …</div>
 
   <script>
     const APP_URL = "https://script.google.com/macros/s/AKfycbzXEPgwDEjn6iX5Vf73-kyX3g7D0pQtiygkP4xT6wQ7FZb0kplB_6JnCWO0a68zmAkL/exec";
@@ -181,44 +125,41 @@
     const offline = document.getElementById("offlineFallback");
     const last = document.getElementById("lastConnection");
     const debugPanel = document.getElementById("debugPanel");
+    const statusDebug = document.getElementById("statusDebug");
 
     let offlineTest = false;
     let globalFallbackActive = false;
     let lastSuccess = new Date();
+    let debugMode = false;
 
     function formatDateTime(date) {
       return date.toLocaleString("de-AT", {
-        day: "2-digit",
-        month: "2-digit",
-        year: "numeric",
-        hour: "2-digit",
-        minute: "2-digit",
-        second: "2-digit"
+        day: "2-digit", month: "2-digit", year: "numeric",
+        hour: "2-digit", minute: "2-digit", second: "2-digit"
       }) + " Uhr";
     }
 
     function updateTime() {
-      last.innerHTML =
-        "Letzte erfolgreiche Verbindung:<br>" +
-        formatDateTime(lastSuccess);
+      last.innerHTML = "Letzte erfolgreiche Verbindung:<br>" + formatDateTime(lastSuccess);
     }
 
     function showOffline() {
       offline.style.display = "flex";
+      frame.style.display = "none";
       updateTime();
     }
 
     function hideOffline() {
       if (offlineTest || globalFallbackActive) return;
-
       offline.style.display = "none";
+      frame.style.display = "block";
       lastSuccess = new Date();
       updateTime();
     }
 
     function reloadDashboard() {
       if (offlineTest || globalFallbackActive) return;
-
+      frame.style.display = "block";
       frame.src = APP_URL + "?reload=" + Date.now();
     }
 
@@ -230,79 +171,91 @@
     function endOfflineTest() {
       offlineTest = false;
       globalFallbackActive = false;
-      hideOffline();
+      offline.style.display = "none";
+      frame.style.display = "block";
+      lastSuccess = new Date();
+      updateTime();
       reloadDashboard();
     }
 
+    function setDebug(text) {
+      if (!debugMode) return;
+      statusDebug.style.display = "block";
+      statusDebug.innerHTML = text;
+    }
+
     async function checkGlobalFallbackStatus() {
+      const url = GLOBAL_STATUS_URL + "?nocache=" + Date.now();
+
       try {
-        const response = await fetch(GLOBAL_STATUS_URL + "?t=" + Date.now(), {
-          cache: "no-store"
-        });
+        setDebug("Prüfe Status…<br>URL: " + url);
 
-        const status = await response.json();
+        const response = await fetch(url, { cache: "no-store" });
+        const text = await response.text();
+        const lower = text.toLowerCase();
 
-        if (status.fallback === true) {
+        const fallbackIsTrue = lower.includes("fallback") && lower.includes("true");
+
+        setDebug(
+          "HTTP: " + response.status + "<br>" +
+          "fallback erkannt: " + fallbackIsTrue + "<br>" +
+          "globalFallbackActive: " + globalFallbackActive + "<br>" +
+          "offlineTest: " + offlineTest + "<br>" +
+          "Antwort:<br>" + text.replace(/</g, "&lt;").replace(/>/g, "&gt;")
+        );
+
+        if (fallbackIsTrue) {
           globalFallbackActive = true;
           showOffline();
-        } else {
-          globalFallbackActive = false;
-
-          if (!offlineTest && navigator.onLine) {
-            hideOffline();
-          }
+          return;
         }
+
+        globalFallbackActive = false;
+
+        if (!offlineTest && navigator.onLine) {
+          offline.style.display = "none";
+          frame.style.display = "block";
+          lastSuccess = new Date();
+          updateTime();
+        }
+
       } catch (err) {
+        setDebug("Fetch Fehler:<br>" + String(err));
         console.log("Globaler Status konnte nicht geprüft werden:", err);
       }
     }
 
     frame.addEventListener("load", function () {
-      setTimeout(function () {
-        hideOffline();
-      }, 1200);
+      setTimeout(hideOffline, 1200);
     });
 
-    window.addEventListener("offline", function () {
-      showOffline();
-    });
+    window.addEventListener("offline", showOffline);
 
     window.addEventListener("online", function () {
       reloadDashboard();
-      setTimeout(function () {
-        hideOffline();
-      }, 2500);
+      setTimeout(hideOffline, 2500);
     });
 
     setInterval(function () {
-      if (!navigator.onLine) {
-        showOffline();
-      }
+      if (!navigator.onLine) showOffline();
     }, 4000);
 
     setInterval(function () {
-      if (!offlineTest && !globalFallbackActive && navigator.onLine) {
-        reloadDashboard();
-      }
+      if (!offlineTest && !globalFallbackActive && navigator.onLine) reloadDashboard();
     }, 60000);
 
     setInterval(checkGlobalFallbackStatus, 3000);
 
     const params = new URLSearchParams(window.location.search);
 
-    if (
-      params.has("offline") ||
-      params.has("testoffline") ||
-      params.get("test") === "offline"
-    ) {
-      showOfflineTest();
+    if (params.has("debug") || params.get("debug") === "1") {
+      debugMode = true;
+      debugPanel.style.display = "flex";
+      statusDebug.style.display = "block";
     }
 
-    if (
-      params.has("debug") ||
-      params.get("debug") === "1"
-    ) {
-      debugPanel.style.display = "flex";
+    if (params.has("offline") || params.has("testoffline") || params.get("test") === "offline") {
+      showOfflineTest();
     }
 
     updateTime();
