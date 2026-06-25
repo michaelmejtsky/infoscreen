@@ -211,6 +211,32 @@
       offlineTest = true;
       showOffline();
     }
+
+    const GLOBAL_STATUS_URL = "https://michaelmejtsky.github.io/FFSTP-Status/status.json";
+
+async function checkGlobalFallbackStatus() {
+  try {
+    const response = await fetch(GLOBAL_STATUS_URL + "?t=" + Date.now(), {
+      cache: "no-store"
+    });
+
+    const status = await response.json();
+
+    if (status.fallback === true) {
+      offlineTest = true;
+      showOffline();
+    } else {
+      offlineTest = false;
+      hideOffline();
+    }
+
+  } catch (err) {
+    console.log("Globaler Status konnte nicht geprüft werden:", err);
+  }
+}
+
+setInterval(checkGlobalFallbackStatus, 3000);
+checkGlobalFallbackStatus();
   </script>
 
 </body>
