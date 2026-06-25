@@ -240,9 +240,7 @@
       if (!navigator.onLine) showOffline();
     }, 4000);
 
-    setInterval(function () {
-      if (!offlineTest && !globalFallbackActive && navigator.onLine) reloadDashboard();
-    }, 60000);
+  
 
     setInterval(checkGlobalFallbackStatus, 3000);
 
