@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Infoscreen</title>
+
   <style>
     html, body {
       margin: 0;
@@ -12,6 +13,7 @@
       height: 100%;
       background: #000;
       overflow: hidden;
+      font-family: Arial, sans-serif;
     }
 
     iframe {
@@ -19,10 +21,197 @@
       height: 100%;
       border: none;
       display: block;
+      background: #000;
+    }
+
+    #offlineFallback {
+      position: fixed;
+      inset: 0;
+      z-index: 999999;
+      background: radial-gradient(circle at center, #10235a 0%, #050b1f 75%);
+      color: #00eaff;
+      display: none;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      padding: 40px;
+    }
+
+    .offline-card {
+      max-width: 950px;
+      padding: 50px 60px;
+      border: 2px solid rgba(0, 234, 255, 0.35);
+      border-radius: 24px;
+      background: rgba(0, 0, 0, 0.35);
+      box-shadow: 0 0 35px rgba(0, 234, 255, 0.18);
+    }
+
+    .offline-logo {
+      width: 150px;
+      max-height: 150px;
+      object-fit: contain;
+      margin-bottom: 28px;
+    }
+
+    .offline-title {
+      font-size: 42px;
+      font-weight: 800;
+      margin-bottom: 18px;
+    }
+
+    .offline-subtitle {
+      font-size: 32px;
+      font-weight: 600;
+      margin-bottom: 26px;
+      color: #ffffff;
+    }
+
+    .offline-small {
+      font-size: 20px;
+      opacity: 0.85;
+      color: #d9faff;
+    }
+
+    .spinner {
+      margin: 30px auto 0;
+      width: 46px;
+      height: 46px;
+      border: 5px solid rgba(255,255,255,0.25);
+      border-top: 5px solid #00eaff;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    #testButton {
+      position: fixed;
+      right: 15px;
+      bottom: 15px;
+      z-index: 1000000;
+      background: rgba(0,234,255,0.9);
+      color: #06122b;
+      border: none;
+      border-radius: 10px;
+      padding: 10px 14px;
+      font-weight: 800;
+      cursor: pointer;
+      display: none;
     }
   </style>
 </head>
+
 <body>
-  <iframe src="https://script.google.com/macros/s/AKfycbzXEPgwDEjn6iX5Vf73-kyX3g7D0pQtiygkP4xT6wQ7FZb0kplB_6JnCWO0a68zmAkL/exec"></iframe>
+
+  <iframe
+    id="dashboardFrame"
+    src="https://script.google.com/macros/s/AKfycbzXEPgwDEjn6iX5Vf73-kyX3g7D0pQtiygkP4xT6wQ7FZb0kplB_6JnCWO0a68zmAkL/exec">
+  </iframe>
+
+  <div id="offlineFallback">
+    <div class="offline-card">
+      <img
+        class="offline-logo"
+        src="https://drive.google.com/thumbnail?id=11OnUfELMcLBj_VPiqKXqu1nIAZHXg_Pb&sz=w400"
+        alt="Feuerwehr Wappen">
+
+      <div class="offline-title">
+        Derzeit gibt es Verbindungsschwierigkeiten.
+      </div>
+
+      <div class="offline-subtitle">
+        Wir arbeiten bereits an der Problembehebung.
+      </div>
+
+      <div class="offline-small">
+        Die Anzeige wird automatisch wiederhergestellt, sobald die Verbindung verfügbar ist.
+      </div>
+
+      <div class="spinner"></div>
+    </div>
+  </div>
+
+  <button id="testButton" onclick="toggleOfflineTest()">Offline-Test</button>
+
+  <script>
+    const dashboardUrl = "https://script.google.com/macros/s/AKfycbzXEPgwDEjn6iX5Vf73-kyX3g7D0pQtiygkP4xT6wQ7FZb0kplB_6JnCWO0a68zmAkL/exec";
+
+    let offlineTest = false;
+    let reloadTimer = null;
+
+    function showOffline() {
+      document.getElementById("offlineFallback").style.display = "flex";
+    }
+
+    function hideOffline() {
+      if (!offlineTest) {
+        document.getElementById("offlineFallback").style.display = "none";
+      }
+    }
+
+    function toggleOfflineTest() {
+      offlineTest = !offlineTest;
+
+      if (offlineTest) {
+        showOffline();
+      } else {
+        hideOffline();
+      }
+    }
+
+    function reloadDashboard() {
+      if (offlineTest) return;
+
+      const frame = document.getElementById("dashboardFrame");
+      frame.src = dashboardUrl + "?t=" + new Date().getTime();
+    }
+
+    document.getElementById("dashboardFrame").addEventListener("load", function () {
+      setTimeout(() => {
+        hideOffline();
+      }, 1500);
+    });
+
+    window.addEventListener("online", function () {
+      reloadDashboard();
+      setTimeout(hideOffline, 3000);
+    });
+
+    window.addEventListener("offline", function () {
+      showOffline();
+    });
+
+    setInterval(() => {
+      if (!navigator.onLine) {
+        showOffline();
+      }
+    }, 5000);
+
+    setInterval(() => {
+      if (!offlineTest && navigator.onLine) {
+        reloadDashboard();
+      }
+    }, 60000);
+
+    setTimeout(() => {
+      if (!navigator.onLine) {
+        showOffline();
+      }
+    }, 8000);
+
+    document.addEventListener("keydown", function(e) {
+      if (e.key === "F9") {
+        toggleOfflineTest();
+      }
+    });
+
+    if (window.location.search.includes("testoffline")) {
+      offlineTest = true;
+      showOffline();
+    }
+  </script>
+
 </body>
 </html>
