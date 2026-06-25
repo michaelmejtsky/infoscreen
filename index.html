@@ -225,16 +225,13 @@
       }
     }
 
-    frame.addEventListener("load", function () {
-      setTimeout(hideOffline, 1200);
-    });
+  
 
     window.addEventListener("offline", showOffline);
 
     window.addEventListener("online", function () {
-      reloadDashboard();
-      setTimeout(hideOffline, 2500);
-    });
+  setTimeout(hideOffline, 2500);
+});
 
     setInterval(function () {
       if (!navigator.onLine) showOffline();
