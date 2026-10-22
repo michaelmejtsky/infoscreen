@@ -1,0 +1,313 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#10291f">
+<meta name="description" content="Käsehütte – Weihnachten im Park 2026: Verfügbarkeit melden und Einteilungen ansehen.">
+<title>Weihnachten im Park 2026 · Käsehütte</title>
+<style>
+:root{--bg:#f6f4ed;--ink:#18291f;--dark:#10291f;--green:#204b38;--line:#e2e4d9;--gold:#ebba54;--muted:#607268;--white:#fff;--danger:#a83d36;--radius:20px}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}body{margin:0;font:16px/1.5 system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;color:var(--ink);background:var(--bg)}
+button,input,select,textarea{font:inherit}button{cursor:pointer}a{color:var(--green)}
+.wrap{max-width:900px;margin:0 auto;padding:0 18px}
+.header{background:radial-gradient(circle at 85% 0%,#446b48 0,#183b2c 39%,#10291f 80%);color:white;padding:25px 0 32px;position:relative;overflow:hidden}
+.header:before{content:"✦   ✧    ✦";position:absolute;right:20px;top:10px;opacity:.16;color:var(--gold);font-size:85px;transform:rotate(-15deg);pointer-events:none}
+.eyebrow{display:flex;gap:8px;align-items:center;text-transform:uppercase;letter-spacing:2px;font-weight:800;color:#e6c77c;font-size:11px;margin-bottom:12px}
+h1{font-family:Georgia,serif;font-size:clamp(35px,7.5vw,59px);line-height:1.03;letter-spacing:-1.5px;margin:0 0 12px;font-weight:700}
+.header p{color:#d5e3d5;max-width:610px;margin:0 0 21px;font-size:15px}
+.dates{display:flex;gap:10px;flex-wrap:wrap}.datepill{border:1px solid #78937a65;background:#ffffff13;border-radius:12px;padding:9px 14px;font-size:13px;font-weight:700;color:#fce6b6}
+.navwrap{background:var(--dark);border-top:1px solid #ffffff1b}
+.tabs{display:flex;gap:5px;overflow-x:auto;scrollbar-width:none;padding:7px 0}.tabs::-webkit-scrollbar{display:none}
+.tab{background:transparent;border:0;border-radius:12px;color:#c4d4c9;padding:12px 16px;white-space:nowrap;font-size:14px;font-weight:750}.tab.active{color:#173326;background:var(--gold)}
+main{padding-top:25px!important;padding-bottom:60px!important}.panel{display:none}.panel.active{display:block}
+.sectiontag{text-transform:uppercase;color:#8b6b25;letter-spacing:1.6px;font-size:11px;font-weight:850;margin-bottom:8px}
+h2{font-family:Georgia,serif;font-size:31px;line-height:1.1;letter-spacing:-.5px;margin:0 0 9px}
+.intro{color:var(--muted);margin:0 0 21px;font-size:15px}
+.card{border:1px solid var(--line);border-radius:var(--radius);background:white;box-shadow:0 5px 24px #14271a08;padding:22px;margin:0 0 16px}
+.card h3{margin:0 0 6px;font-size:19px}.card p{margin:4px 0 12px}
+label{display:block;font-weight:720;font-size:13px;margin-bottom:7px}
+.field{margin:0 0 17px}
+input:not([type="checkbox"]),select,textarea{display:block;width:100%;border:1px solid #d4ddce;border-radius:12px;background:#fff;color:var(--ink);padding:12px 13px;min-height:47px;outline:none;box-shadow:none}
+input:focus,select:focus,textarea:focus{border-color:#367252;box-shadow:0 0 0 3px #3672521d}
+textarea{min-height:90px;resize:vertical}.hint{font-size:12px;color:var(--muted);margin:5px 0 0}
+.fieldgrid{display:grid;grid-template-columns:1fr 1fr;gap:15px}
+.daycard{border:1px solid #dbe3d6;border-radius:15px;margin:12px 0;background:#fbfcf8;overflow:hidden}
+.dayhead{display:flex;align-items:center;justify-content:space-between;padding:15px 16px;gap:10px}
+.daytitle{font-weight:850}.daytitle small{display:block;color:var(--muted);font-weight:550}
+.slots{padding:0 13px 13px}.slot{border-top:1px solid #e5e9e0;padding:12px 2px;display:grid;grid-template-columns:1fr 1fr auto;gap:9px;align-items:end}
+.slot label{font-size:11px;margin:0 0 4px}.slot input{min-width:0}
+.btn{border:0;border-radius:12px;padding:12px 17px;font-weight:800;min-height:46px;display:inline-flex;align-items:center;justify-content:center;gap:8px;line-height:1.2}
+.primary{background:var(--green);color:#fff}.primary:hover{background:#173b2c}
+.gold{background:var(--gold);color:#1f321f}.secondary{background:#e8f0e6;color:#204b38}.outline{border:1px solid #cad6c8;background:white;color:var(--green)}.danger{background:#fff1ee;color:#a2342e}
+.small{min-height:33px;font-size:12px;padding:8px 11px}.full{width:100%}
+.check{display:flex;gap:10px;align-items:flex-start;font-size:13px;font-weight:520;line-height:1.35;margin:14px 0}.check input{width:18px;height:18px;flex:0 0 18px;margin:0;accent-color:var(--green)}
+.notice{border:1px solid #e2d3a5;background:#fff7df;color:#73561a;border-radius:12px;padding:12px 14px;font-size:13px;margin:0 0 17px}
+.notice.good{border-color:#b9d8c3;background:#e9f7ed;color:#265c3f}.notice.bad{border-color:#e8b7b1;background:#fff2f0;color:#8c2f2c}
+.actions{display:flex;gap:9px;flex-wrap:wrap;align-items:center;margin:12px 0}
+.spaced{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
+.mini{color:var(--muted);font-size:12px}
+hr{border:0;border-top:1px solid var(--line);margin:18px 0}
+.empty{background:white;border:1px dashed #cad7ca;border-radius:16px;padding:24px;color:var(--muted);text-align:center}
+.planentry{border-top:1px solid #edf0e9;display:grid;grid-template-columns:minmax(104px,1fr) 1.1fr 1fr;gap:9px;padding:13px 0;font-size:14px;align-items:center}
+.planentry strong{color:#174a30}.pill{display:inline-block;font-size:11px;font-weight:800;border-radius:8px;background:#ecf4ea;color:#25613e;padding:5px 8px}
+.pill.draft{background:#fff1da;color:#835c13}
+.person{border-top:1px solid var(--line);padding:16px 0}.person:first-child{border-top:0}
+.person .name{font-weight:850;font-size:16px}
+.person .sub{font-size:12px;color:var(--muted);margin:2px 0 8px}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin:7px 0}.chip{font-size:12px;background:#eff4ed;color:#315640;border-radius:8px;padding:5px 8px}
+.editbox{padding:13px;background:#f6f9f4;border-radius:12px;margin-top:9px}
+.adminshift{border-top:1px solid #edf0e9;padding:12px 0;display:flex;align-items:center;justify-content:space-between;gap:9px;flex-wrap:wrap}
+footer{text-align:center;font-size:12px;color:#758779;padding:12px 18px 32px}
+@media(max-width:540px){.wrap{padding-left:14px;padding-right:14px}.card{padding:17px}.fieldgrid{grid-template-columns:1fr;gap:0}.planentry{grid-template-columns:1fr 1fr}.planentry span:last-child{grid-column:1/-1}.tab{padding:11px 12px;font-size:12px}.slot{gap:6px}.slot input{padding:9px 5px;font-size:14px}.header{padding-top:20px}}
+</style>
+<script src="config.js"></script>
+</head>
+<body>
+<header class="header">
+  <div class="wrap">
+    <div class="eyebrow">✦ Gemeinsam anpacken · 2026 ✦</div>
+    <h1>Weihnachten<br>im Park <span style="color:#edc46d">✳</span></h1>
+    <p>Unsere Käsehütte braucht wieder großartige helfende Hände! Trag ein, wann du Zeit hast – die fixe Einteilung findest du später genau hier.</p>
+    <div class="dates"><div class="datepill">Fr · 04. Dezember</div><div class="datepill">Sa · 05. Dezember</div><div class="datepill">So · 06. Dezember</div></div>
+  </div>
+</header>
+<nav class="navwrap"><div class="wrap tabs" role="tablist" aria-label="Navigation">
+  <button class="tab active" data-tab="melden" type="button">🙋 Zeit melden</button>
+  <button class="tab" data-tab="plan" type="button">📅 Dienstplan</button>
+  <button class="tab" data-tab="mein" type="button">✨ Meine Einteilung</button>
+  <button class="tab" data-tab="admin" type="button">🔒 Verwaltung</button>
+</div></nav>
+<main class="wrap">
+<section class="panel active" id="melden">
+ <div class="sectiontag">Helfer-Anmeldung</div><h2>Wann kannst du helfen?</h2>
+ <p class="intro">Ob eine Stunde oder ein ganzer Abend – jede Unterstützung zählt. Du kannst mehrere Zeitfenster pro Tag angeben.</p>
+ <div id="setupAlert"></div>
+ <form id="signupForm" class="card">
+  <div class="fieldgrid">
+   <div class="field"><label for="name">Dein Name *</label><input id="name" name="name" placeholder="Vor- und Nachname" required maxlength="90" autocomplete="name"></div>
+   <div class="field"><label for="phone">Telefon / WhatsApp (freiwillig)</label><input id="phone" name="phone" type="tel" placeholder="Für kurze Rückfragen" maxlength="60" autocomplete="tel"></div>
+  </div>
+  <h3>Deine verfügbaren Zeiten</h3><p class="mini">Wähle einen oder mehrere Tage und die Uhrzeiten, die für dich möglich wären.</p>
+  <div id="daySlots"></div>
+  <div class="field"><label for="note">Wünsche oder Anmerkungen</label><textarea id="note" maxlength="700" placeholder="z. B. lieber abends, gemeinsam mit jemandem, nur an der Ausgabe ..."></textarea></div>
+  <label class="check"><input id="publicName" type="checkbox"><span>Mein <strong>Vorname</strong> darf im veröffentlichten Dienstplan für andere Helfer sichtbar sein. Sonst erscheint dort „Helfer:in“.</span></label>
+  <label class="check"><input id="privacy" type="checkbox" required><span>Ich bin einverstanden, dass meine Angaben zur Helferplanung gespeichert und vom Organisationsteam eingesehen werden. *</span></label>
+  <button class="btn primary full" type="submit" id="signupButton">Verfügbarkeit absenden →</button>
+  <div id="signupStatus" aria-live="polite"></div>
+ </form>
+</section>
+<section class="panel" id="plan">
+ <div class="sectiontag">Veröffentlichter Plan</div><h2>Unser Dienstplan</h2>
+ <p class="intro">Hier erscheinen nur die vom Organisationsteam fix freigegebenen Dienste. Bis dahin sind alle Angaben unverbindlich.</p>
+ <div class="actions"><button class="btn secondary" id="refreshPlan" type="button">↻ Plan aktualisieren</button></div>
+ <div id="planList" aria-live="polite"></div>
+</section>
+<section class="panel" id="mein">
+ <div class="sectiontag">Dein persönlicher Überblick</div><h2>Meine Einteilung</h2>
+ <p class="intro">Hier siehst du deine bereits veröffentlichten fixen Dienste. Deine Verfügbarkeit ist noch keine fixe Einteilung.</p>
+ <div id="myStatus"></div>
+ <div id="myActions" class="actions" hidden><button class="btn secondary" type="button" id="copyPrivate">🔗 Persönlichen Link kopieren</button><button class="btn outline" type="button" id="editMine">✎ Zeiten ändern</button></div>
+</section>
+<section class="panel" id="admin">
+ <div class="sectiontag">Nur für die Organisation</div><h2>Helfer-Verwaltung</h2>
+ <p class="intro">Meldungen prüfen, Personen einteilen und den fertigen Plan fix veröffentlichen.</p>
+ <div id="adminLogin" class="card">
+  <div class="field"><label for="adminKey">Geheimer Administrator-Schlüssel</label><input id="adminKey" type="password" autocomplete="off" placeholder="Admin-Schlüssel aus Apps Script"></div>
+  <button type="button" class="btn primary" id="loginButton">Verwaltung öffnen</button>
+  <p class="mini">Der Schlüssel wird nicht an GitHub übertragen und nur für diese Browser-Sitzung gespeichert.</p>
+ </div>
+ <div id="adminDashboard" hidden>
+   <div class="card">
+    <div class="spaced"><h3>Überblick</h3><button class="btn outline small" id="logoutButton" type="button">Abmelden</button></div>
+    <p id="adminCounts"></p>
+    <div class="actions"><button class="btn gold" id="publishBtn" type="button">✓ Plan veröffentlichen</button><button class="btn danger" id="unpublishBtn" type="button">Veröffentlichung zurücknehmen</button><button class="btn secondary" id="adminRefresh" type="button">↻ Neu laden</button></div>
+    <p class="mini">Neue und bearbeitete Schichten sind zunächst Entwürfe. Erst nach dem Veröffentlichen erscheinen sie im öffentlichen Plan.</p>
+   </div>
+   <div class="card">
+    <h3>Einteilung anlegen / bearbeiten</h3>
+    <form id="shiftForm">
+     <div class="field"><label for="shiftPerson">Helfer:in</label><select id="shiftPerson" required><option value="">Bitte wählen</option></select></div>
+     <div class="fieldgrid">
+      <div class="field"><label for="shiftDate">Tag</label><select id="shiftDate"><option value="2026-12-04">Fr, 04.12.</option><option value="2026-12-05">Sa, 05.12.</option><option value="2026-12-06">So, 06.12.</option></select></div>
+      <div class="field"><label for="shiftRole">Bereich</label><select id="shiftRole"><option>Käsehütte</option><option>Verkauf</option><option>Ausgabe</option><option>Vorbereitung</option><option>Aufbau / Abbau</option></select></div>
+      <div class="field"><label for="shiftFrom">Von</label><input id="shiftFrom" type="time" required></div>
+      <div class="field"><label for="shiftTo">Bis</label><input id="shiftTo" type="time" required></div>
+     </div>
+     <div class="field"><label for="shiftNote">Interne Information</label><input id="shiftNote" maxlength="300" placeholder="Optional"></div>
+     <div class="actions"><button class="btn primary" type="submit" id="shiftSave">Einteilung speichern</button><button class="btn outline" type="button" id="resetShift">Abbrechen / Neu</button></div>
+    </form>
+   </div>
+   <div class="card"><h3>Bisherige Einteilungen</h3><div id="adminShifts"></div></div>
+   <div class="card"><h3>Verfügbarkeiten & Wünsche</h3><div id="adminPeople"></div></div>
+ </div>
+ <div id="adminStatus" aria-live="polite"></div>
+</section>
+</main>
+<footer>Mit ❤️ für unsere Käsehütte · Weihnachten im Park 2026<br><small>Organisation: ehrenamtlich · Änderungen im Dienstplan vorbehalten</small></footer>
+<script>
+(function(){
+'use strict';
+var API=String(window.WIP_API_URL||'').trim();
+var DAYS=[{id:'2026-12-04',name:'Freitag',short:'Fr, 04.12.'},{id:'2026-12-05',name:'Samstag',short:'Sa, 05.12.'},{id:'2026-12-06',name:'Sonntag',short:'So, 06.12.'}];
+var slots=[], person=null, adminKey=sessionStorage.getItem('wip26_admin')||'', adminData={people:[],shifts:[]}, editShiftId='';
+function el(id){return document.getElementById(id)}
+function esc(v){return String(v==null?'':v).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]})}
+function dayName(id){return (DAYS.find(function(d){return d.id===id})||{}).short||id}
+function status(where,message,kind){el(where).innerHTML=message?'<div class="notice '+(kind||'')+'" style="margin-top:14px">'+esc(message)+'</div>':''}
+function show(tab){
+ document.querySelectorAll('.tab').forEach(function(x){x.classList.toggle('active',x.dataset.tab===tab)});
+ document.querySelectorAll('.panel').forEach(function(x){x.classList.toggle('active',x.id===tab)});
+ if(tab==='plan')loadPlan(); if(tab==='mein')loadMine(); if(tab==='admin'&&adminKey)loadAdmin();
+ window.scrollTo(0,0);
+}
+document.querySelectorAll('.tab').forEach(function(x){x.addEventListener('click',function(){show(x.dataset.tab)})});
+function call(action,payload){
+ return new Promise(function(resolve,reject){
+  if(!/^https:\/\/script\.google\.com\/macros\/s\/[^/]+\/exec(?:\?.*)?$/.test(API)){reject(Error('Die Anmeldung ist noch nicht freigeschaltet. Bitte beim Organisationsteam nachfragen.'));return}
+  var rid='r'+Math.random().toString(36).slice(2)+Date.now(),frame=document.createElement('iframe'),form=document.createElement('form');
+  frame.name='wipframe'+rid;frame.setAttribute('aria-hidden','true');frame.style.cssText='display:none!important';form.method='POST';form.action=API;form.target=frame.name;form.style.display='none';
+  [['rid',rid],['action',action],['payload',JSON.stringify(payload||{})]].forEach(function(pair){var input=document.createElement('input');input.type='hidden';input.name=pair[0];input.value=pair[1];form.appendChild(input)});
+  var finished=false,timeout;
+  function cleanup(){window.removeEventListener('message',incoming);clearTimeout(timeout);setTimeout(function(){form.remove();frame.remove()},150)}
+  function done(error,value){if(finished)return;finished=true;cleanup();if(error)reject(error);else resolve(value)}
+  function incoming(event){
+   var m=event.data;
+   if(!m||m.wip2026!==true||m.rid!==rid)return;
+   if(event.origin!=='null'&&!/^https:\/\/([a-z0-9-]+\.)*(googleusercontent\.com|google\.com)$/.test(event.origin))return;
+   if(!m.result||m.result.ok!==true)done(Error(m.result&&m.result.error||'Unbekannter Serverfehler.'));
+   else done(null,m.result);
+  }
+  window.addEventListener('message',incoming);
+  document.body.appendChild(frame);document.body.appendChild(form);
+  timeout=setTimeout(function(){done(Error('Der Server antwortet nicht. Bitte Verbindung prüfen und nochmals versuchen.'))},28000);
+  try{form.submit()}catch(e){done(e)}
+ });
+}
+function restore(){
+ try{person=JSON.parse(localStorage.getItem('wip26_person')||'null')}catch(e){person=null}
+ try{
+  var query=new URLSearchParams(location.search);
+  if(query.get('id')&&query.get('code')){person={id:query.get('id'),code:query.get('code')};localStorage.setItem('wip26_person',JSON.stringify(person));history.replaceState(null,'',location.pathname+location.hash)}
+ }catch(e){}
+}
+function dayRender(){
+ el('daySlots').innerHTML=DAYS.map(function(d){
+  var idx=slots.map(function(s,i){return s.date===d.id?i:-1}).filter(function(i){return i>=0});
+  return '<div class="daycard"><div class="dayhead"><div class="daytitle">'+d.name+' <small>'+esc(d.short)+'.2026</small></div><button class="btn secondary small" type="button" data-add="'+d.id+'">+ Zeitfenster</button></div>'+
+   '<div class="slots">'+(idx.length?idx.map(function(i){var s=slots[i];return '<div class="slot">'+
+   '<div><label>Von</label><input type="time" data-slot="'+i+'" data-key="from" value="'+esc(s.from)+'" aria-label="Beginn"></div>'+
+   '<div><label>Bis</label><input type="time" data-slot="'+i+'" data-key="to" value="'+esc(s.to)+'" aria-label="Ende"></div>'+
+   '<button class="btn danger small" type="button" data-remove="'+i+'" aria-label="Zeitfenster entfernen">×</button></div>'}).join(''):'<div class="mini" style="padding:0 3px 12px">Noch kein Zeitfenster angegeben.</div>')+'</div></div>'
+ }).join('');
+}
+el('daySlots').addEventListener('click',function(e){
+ var b=e.target.closest('button');if(!b)return;
+ if(b.hasAttribute('data-add')){if(slots.length>=18){status('signupStatus','Maximal 18 Zeitfenster möglich.','bad');return}slots.push({date:b.getAttribute('data-add'),from:'',to:''});dayRender()}
+ if(b.hasAttribute('data-remove')){slots.splice(Number(b.getAttribute('data-remove')),1);dayRender()}
+});
+el('daySlots').addEventListener('change',function(e){if(e.target.hasAttribute('data-slot')){var i=Number(e.target.dataset.slot),k=e.target.dataset.key;if(slots[i]&&(k==='from'||k==='to'))slots[i][k]=e.target.value}});
+el('signupForm').addEventListener('submit',async function(e){
+ e.preventDefault();
+ if(!slots.length){status('signupStatus','Bitte mindestens ein Zeitfenster auswählen.','bad');return}
+ if(slots.some(function(s){return !s.from||!s.to||s.from>=s.to})){status('signupStatus','Bitte alle Beginn- und Endzeiten prüfen.','bad');return}
+ var btn=el('signupButton');btn.disabled=true;btn.textContent='Wird gespeichert …';status('signupStatus','');
+ try{
+  var r=await call('signup',{id:person&&person.id,code:person&&person.code,name:el('name').value,phone:el('phone').value,note:el('note').value,publicName:el('publicName').checked,availability:slots});
+  person={id:r.id,code:r.code};localStorage.setItem('wip26_person',JSON.stringify(person));
+  status('signupStatus',r.message+' Du kannst deine Daten später hier ändern.','good');
+  setTimeout(function(){show('mein')},900);
+ }catch(ex){status('signupStatus',ex.message,'bad')}
+ finally{btn.disabled=false;btn.textContent='Verfügbarkeit absenden →'}
+});
+function loadMyForm(p){el('name').value=p.name||'';el('phone').value=p.phone||'';el('note').value=p.note||'';el('publicName').checked=!!p.publicName;el('privacy').checked=true;slots=Array.isArray(p.availability)?p.availability.slice():[];dayRender()}
+async function loadMine(){
+ if(!person){el('myStatus').innerHTML='<div class="empty">Du hast auf diesem Gerät noch keine Anmeldung gespeichert. Bitte melde zuerst deine Zeiten.</div>';el('myActions').hidden=true;return}
+ el('myStatus').innerHTML='<div class="empty">Deine Einteilung wird geladen …</div>';
+ try{
+  var r=await call('mine',person);el('myActions').hidden=false;loadMyForm(r.person);
+  var html='<div class="card"><h3>Hallo '+esc(r.person.name)+'! 👋</h3>';
+  if(!r.shifts.length)html+='<p>Deine Verfügbarkeit ist erfasst. <strong>Du hast noch keine veröffentlichte fixe Einteilung.</strong></p>';
+  else html+='<p>Diese Dienste sind für dich <strong>fix veröffentlicht</strong>:</p>'+r.shifts.sort(function(a,b){return (a.date+a.from).localeCompare(b.date+b.from)}).map(function(s){return '<div class="planentry"><strong>'+esc(dayName(s.date))+'</strong><span>'+esc(s.from)+'–'+esc(s.to)+' Uhr</span><span>'+esc(s.role)+'</span></div>'}).join('');
+  el('myStatus').innerHTML=html+'</div>';
+ }catch(ex){el('myStatus').innerHTML='<div class="notice bad">'+esc(ex.message)+'</div>';el('myActions').hidden=true}
+}
+el('editMine').addEventListener('click',function(){show('melden')});
+el('copyPrivate').addEventListener('click',async function(){
+ if(!person)return;
+ var url=location.origin+location.pathname+'?id='+encodeURIComponent(person.id)+'&code='+encodeURIComponent(person.code);
+ try{await navigator.clipboard.writeText(url);alert('Dein persönlicher Bearbeitungslink wurde kopiert. Bitte nicht öffentlich teilen.')}
+ catch(e){prompt('Dein persönlicher Link (privat aufbewahren):',url)}
+});
+async function loadPlan(){
+ el('planList').innerHTML='<div class="empty">Der veröffentlichte Plan wird geladen …</div>';
+ try{
+  var r=await call('public',{}),arr=r.plan||[];
+  if(!arr.length){el('planList').innerHTML='<div class="empty">Der fixe Dienstplan ist noch nicht veröffentlicht. Trag gerne schon deine verfügbaren Zeiten ein! 🎄</div>';return}
+  el('planList').innerHTML=DAYS.map(function(d){var items=arr.filter(function(s){return s.date===d.id});
+   return '<div class="card"><div class="spaced"><h3>'+esc(d.name)+', '+esc(d.short.slice(4))+'.2026</h3><span class="pill">'+items.length+' Dienste</span></div>'+
+   (items.length?items.map(function(s){return '<div class="planentry"><strong>'+esc(s.from)+'–'+esc(s.to)+' Uhr</strong><span>'+esc(s.name)+'</span><span>'+esc(s.role)+'</span></div>'}).join(''):'<p class="mini">Noch keine fixen Einteilungen.</p>')+'</div>'
+  }).join('');
+ }catch(ex){el('planList').innerHTML='<div class="notice bad">'+esc(ex.message)+'</div>'}
+}
+el('refreshPlan').addEventListener('click',loadPlan);
+async function loadAdmin(){
+ if(!adminKey)return;
+ status('adminStatus','Lade Helfer und Einteilungen …');
+ try{var r=await call('adminList',{adminKey:adminKey});adminData={people:r.people||[],shifts:r.shifts||[]};el('adminLogin').hidden=true;el('adminDashboard').hidden=false;status('adminStatus','');renderAdmin()}
+ catch(ex){status('adminStatus',ex.message,'bad');if(/Admin-Schlüssel falsch/.test(ex.message)){adminKey='';sessionStorage.removeItem('wip26_admin');el('adminLogin').hidden=false;el('adminDashboard').hidden=true}}
+}
+el('loginButton').addEventListener('click',function(){adminKey=el('adminKey').value.trim();if(!adminKey){status('adminStatus','Admin-Schlüssel eingeben.','bad');return}sessionStorage.setItem('wip26_admin',adminKey);loadAdmin()});
+el('logoutButton').addEventListener('click',function(){adminKey='';sessionStorage.removeItem('wip26_admin');el('adminLogin').hidden=false;el('adminDashboard').hidden=true;el('adminKey').value='';status('adminStatus','')});
+function renderAdmin(){
+ var ppl=adminData.people,shifts=adminData.shifts;
+ el('adminCounts').textContent=ppl.length+' Helfer-Anmeldungen · '+shifts.length+' Einteilungen · '+shifts.filter(function(s){return s.published}).length+' veröffentlicht';
+ el('shiftPerson').innerHTML='<option value="">Bitte wählen</option>'+ppl.map(function(p){return '<option value="'+esc(p.id)+'">'+esc(p.name)+'</option>'}).join('');
+ if(ppl.length===0)el('adminPeople').innerHTML='<div class="empty">Noch keine Anmeldungen.</div>';
+ else el('adminPeople').innerHTML=ppl.slice().sort(function(a,b){return a.name.localeCompare(b.name,'de')}).map(function(p){
+  return '<div class="person"><div class="name">'+esc(p.name)+'</div><div class="sub">'+esc(p.phone||'Keine Nummer angegeben')+'</div>'+
+  '<div class="chips">'+(p.availability||[]).map(function(s){return '<span class="chip">'+esc(dayName(s.date))+' · '+esc(s.from)+'–'+esc(s.to)+'</span>'}).join('')+'</div>'+
+  (p.note?'<p class="mini"><strong>Wunsch:</strong> '+esc(p.note)+'</p>':'')+
+  '<button type="button" class="btn secondary small" data-person="'+esc(p.id)+'">Für Dienst auswählen</button></div>'
+ }).join('');
+ if(!shifts.length)el('adminShifts').innerHTML='<div class="empty">Noch keine Einteilungen angelegt.</div>';
+ else el('adminShifts').innerHTML=shifts.slice().sort(function(a,b){return (a.date+a.from).localeCompare(b.date+b.from)}).map(function(s){
+  var p=ppl.find(function(x){return x.id===s.personId});
+  return '<div class="adminshift"><div><strong>'+esc(p?p.name:'Unbekannt')+'</strong> · '+esc(dayName(s.date))+' · '+esc(s.from)+'–'+esc(s.to)+'<div class="mini">'+esc(s.role)+(s.note?' · '+esc(s.note):'')+'</div></div><div class="actions"><span class="pill '+(s.published?'':'draft')+'">'+(s.published?'Fix':'Entwurf')+'</span><button class="btn outline small" type="button" data-edit="'+esc(s.id)+'">Ändern</button><button class="btn danger small" type="button" data-delete="'+esc(s.id)+'">Löschen</button></div></div>'
+ }).join('');
+}
+el('adminPeople').addEventListener('click',function(e){var b=e.target.closest('[data-person]');if(!b)return;el('shiftPerson').value=b.dataset.person;el('shiftForm').scrollIntoView({behavior:'smooth'})});
+el('adminShifts').addEventListener('click',async function(e){
+ var b=e.target.closest('button');if(!b)return;
+ if(b.dataset.edit){var s=adminData.shifts.find(function(x){return x.id===b.dataset.edit});if(!s)return;
+  editShiftId=s.id;el('shiftPerson').value=s.personId;el('shiftDate').value=s.date;el('shiftFrom').value=s.from;el('shiftTo').value=s.to;el('shiftRole').value=s.role;el('shiftNote').value=s.note;el('shiftSave').textContent='Änderung speichern';el('shiftForm').scrollIntoView({behavior:'smooth'});return}
+ if(b.dataset.delete){if(!confirm('Diese Einteilung wirklich löschen?'))return;try{await call('deleteShift',{adminKey:adminKey,shiftId:b.dataset.delete});await loadAdmin()}catch(ex){status('adminStatus',ex.message,'bad')}}
+});
+function resetShift(){editShiftId='';el('shiftForm').reset();el('shiftSave').textContent='Einteilung speichern'}
+el('resetShift').addEventListener('click',resetShift);
+el('shiftForm').addEventListener('submit',async function(e){
+ e.preventDefault();var b=el('shiftSave');b.disabled=true;
+ try{
+  var data={adminKey:adminKey,shiftId:editShiftId,personId:el('shiftPerson').value,date:el('shiftDate').value,from:el('shiftFrom').value,to:el('shiftTo').value,role:el('shiftRole').value,note:el('shiftNote').value};
+  var p=adminData.people.find(function(x){return x.id===data.personId});
+  if(p&&!p.availability.some(function(s){return s.date===data.date&&data.from>=s.from&&data.to<=s.to})){
+    if(!confirm('Achtung: Diese Schicht liegt außerhalb der angegebenen Verfügbarkeit. Trotzdem speichern?'))return;
+  }
+  var r=await call('saveShift',data);resetShift();await loadAdmin();status('adminStatus',r.message,'good');
+ }catch(ex){status('adminStatus',ex.message,'bad')}finally{b.disabled=false}
+});
+async function publish(yes){
+ var msg=yes?'Alle aktuellen Schichten für die Helfer FIX veröffentlichen?':'Alle veröffentlichten Einteilungen zurücknehmen?';
+ if(!confirm(msg))return;
+ try{var r=await call(yes?'publish':'unpublish',{adminKey:adminKey});await loadAdmin();status('adminStatus',r.message,'good')}
+ catch(ex){status('adminStatus',ex.message,'bad')}
+}
+el('publishBtn').addEventListener('click',function(){publish(true)});
+el('unpublishBtn').addEventListener('click',function(){publish(false)});
+el('adminRefresh').addEventListener('click',loadAdmin);
+restore();dayRender();
+if(!API)el('setupAlert').innerHTML='<div class="notice">⚙️ Die Webapp-Oberfläche ist bereit. Die Anmeldung wird erst nach der Verknüpfung mit Google Apps Script freigeschaltet.</div>';
+})();
+</script>
+</body></html>
