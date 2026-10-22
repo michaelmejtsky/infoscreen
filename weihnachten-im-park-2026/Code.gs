@@ -33,6 +33,9 @@ function setupWIP() {
       const existing = sheet.getRange(1,1,1,headers.length).getValues()[0].map(String);
       if (JSON.stringify(existing) !== JSON.stringify(headers)) throw Error(name + ': Tabellenkopf passt nicht. Keine Änderung durchgeführt.');
     }
+    // IDs, Dates and times must remain literal strings (not auto-converted to Date).
+    if (name === 'Einteilungen') sheet.getRange(2,1,Math.max(1,sheet.getMaxRows()-1),7).setNumberFormat('@');
+    if (name === 'Anmeldungen') {sheet.getRange(2,1,Math.max(1,sheet.getMaxRows()-1),5).setNumberFormat('@');sheet.getRange(2,7,Math.max(1,sheet.getMaxRows()-1),1).setNumberFormat('@');}
   });
   const props = PropertiesService.getScriptProperties();
   if (!props.getProperty('WIP_ADMIN_KEY')) {
