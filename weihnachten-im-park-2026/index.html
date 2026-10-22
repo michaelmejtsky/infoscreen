@@ -150,7 +150,7 @@ footer{text-align:center;font-size:12px;color:#758779;padding:12px 18px 32px}
 (function(){
 'use strict';
 var API=String(window.WIP_API_URL||'').trim();
-var DAYS=[{id:'2026-12-04',name:'Freitag',short:'Fr, 04.12.'},{id:'2026-12-05',name:'Samstag',short:'Sa, 05.12.'},{id:'2026-12-06',name:'Sonntag',short:'So, 06.12.'}];
+var DAYS=[{id:'2026-12-04',name:'Freitag',short:'Fr, 04.12'},{id:'2026-12-05',name:'Samstag',short:'Sa, 05.12'},{id:'2026-12-06',name:'Sonntag',short:'So, 06.12'}];
 var slots=[], person=null, adminKey=sessionStorage.getItem('wip26_admin')||'', adminData={people:[],shifts:[]}, editShiftId='';
 function el(id){return document.getElementById(id)}
 function esc(v){return String(v==null?'':v).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]})}
