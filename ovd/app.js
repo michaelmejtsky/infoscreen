@@ -1,6 +1,6 @@
 'use strict';
 const $=id=>document.getElementById(id);
-const state={api:localStorage.getItem('ovd_api')||'',token:localStorage.getItem('ovd_session')||'',data:null,filter:'mine',pending:null,installPrompt:null,busy:false};
+const state={api:String(window.OVD_API_URL||'').trim().replace(/\/+$/,''),token:localStorage.getItem('ovd_session')||'',data:null,filter:'mine',pending:null,installPrompt:null,busy:false};
 const escapeHTML=t=>String(t??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 function notify(msg){const x=$('toast');x.textContent=msg;x.classList.add('show');clearTimeout(notify.t);notify.t=setTimeout(()=>x.classList.remove('show'),4500)}
 function fmt(d,opts){const val=String(d||'');const dt=val.length===10?new Date(val+'T12:00:00'):new Date(val);if(isNaN(+dt))return val||'–';return new Intl.DateTimeFormat('de-AT',{timeZone:'Europe/Vienna',...opts}).format(dt)}
@@ -99,11 +99,6 @@ async function refreshPushState(){
  $('push-button').textContent=sub?'Aktualisieren':'Aktivieren';
 }
 function install(){if(state.installPrompt){state.installPrompt.prompt();state.installPrompt.userChoice.finally(()=>state.installPrompt=null)}else notify('Android: Browsermenü → App installieren. iPhone: Safari → Teilen → Zum Home-Bildschirm.')}
-$('save-server').onclick=()=>{
- const value=$('server-url').value.trim().replace(/\/+$/,'');
- try{const u=new URL(value);if(u.protocol!=='https:'||u.username||u.password||u.pathname!=='/'||u.search||u.hash)throw Error()}catch{return notify('Bitte eine gültige HTTPS-Adresse des OVD-Workers eingeben.')}
- state.api=value;localStorage.setItem('ovd_api',value);bootstrap()
-};
 $('login-form').onsubmit=async e=>{
  e.preventDefault();const number=$('number').value.trim();if(!/^\d{3}$/.test(number))return notify('Bitte eine dreistellige Standesbuchnummer eingeben.');
  try{await call('loginStart',{number});$('login-form').hidden=true;$('verify-form').hidden=false;$('login-help').textContent='Sofern du als aktiver OVD eingetragen bist, erhältst du einen sechsstelligen Code per E-Mail.';$('otp').focus()}catch(err){notify(err.message)}
@@ -125,10 +120,10 @@ $('filter-all').onclick=()=>{state.filter='all';$('filter-all').classList.add('s
 document.querySelectorAll('[data-view]').forEach(b=>b.onclick=()=>showView(b.dataset.view));
 document.querySelectorAll('[data-reload]').forEach(b=>b.onclick=refresh);
 $('logout').onclick=async()=>{try{await call('logout')}catch{}signOut()};
-$('push-button').onclick=enablePush;$('install-button').onclick=install;
+$('push-button').onclick=enablePush;['install-button','install-public','install-auth','install-header'].forEach(id=>{const b=$(id);if(b)b.onclick=install});
 window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();state.installPrompt=e});
 window.addEventListener('online',()=>{if(state.token)refresh()});
 window.addEventListener('offline',()=>status(false,'Offline'));
 window.addEventListener('hashchange',()=>{const v=location.hash.slice(1);if(['home','duties','swaps','profile'].includes(v)&&state.token)showView(v)});
 if('serviceWorker' in navigator)navigator.serviceWorker.register('./sw.js').catch(()=>{});
-$('server-url').value=state.api;bootstrap();if(state.token)setInterval(()=>{if(!document.hidden)refresh()},60000);
+bootstrap();if(state.token)setInterval(()=>{if(!document.hidden)refresh()},60000);
