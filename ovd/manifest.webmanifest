@@ -2,13 +2,13 @@
   "id": "./",
   "name": "OVD-Zentrale – Feuerwehr St. Pölten-Stadt",
   "short_name": "OVD-Zentrale",
-  "description": "OVD-Dienstverwaltung und BAZ-Dashboard",
+  "description": "OVD-Dienstübersicht, Diensttausch und Push-Erinnerungen",
   "lang": "de-AT",
-  "start_url": "./#ovd",
+  "start_url": "./#home",
   "scope": "./",
   "display": "standalone",
-  "background_color": "#0d1624",
-  "theme_color": "#101b2b",
+  "background_color": "#0d1725",
+  "theme_color": "#101d2f",
   "icons": [
     {
       "src": "./icon.svg",
