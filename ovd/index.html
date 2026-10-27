@@ -22,33 +22,38 @@ main{max-width:1352px;width:100%;margin:auto;display:flex;flex:1;flex-direction:
 .wait strong{display:block;font-size:18px;margin-bottom:8px}.wait p{margin:0 auto 15px;max-width:460px;color:var(--muted)}.wait a{color:#abd3ff}
 .foot{font-size:11px;color:#8fa1b8;text-align:center;padding:2px 0 6px}
 @media(max-width:650px){.meta{display:none}.brand h1{font-size:19px}main{padding:10px;gap:9px}.toolbar{display:block}.tabs{width:100%}.tab{flex:1;font-size:13px;padding:12px 7px}.actions{margin-top:8px}.action{flex:1;font-size:13px}.screen,.screen iframe{min-height:calc(100dvh - 260px);border-radius:10px}.header{padding-bottom:13px}}
-</style></head>
+  .screen iframe[hidden]{display:none!important}.wait[hidden]{display:none!important}
+  </style></head>
 <body>
-<header class="header"><div class="bar"><div class="mark" aria-hidden="true">🚒</div><div class="brand"><small>Freiwillige Feuerwehr St. Pölten-Stadt</small><h1>OVD-Zentrale</h1></div><div class="meta"><span class="dot"></span> Live über das bestehende Dashboard</div></div></header>
+<header class="header"><div class="bar"><div class="mark" aria-hidden="true">OVD</div><div class="brand"><small>Freiwillige Feuerwehr St. Pölten-Stadt</small><h1>OVD-Zentrale</h1></div><div class="meta"><span class="dot"></span> Nur OVD-Dienstverwaltung</div></div></header>
 <main>
-<div class="toolbar"><div class="tabs" role="tablist" aria-label="Ansicht">
-<button class="tab" id="tab-ovd" role="tab" type="button" aria-selected="true">OVD-Verwaltung</button>
-<button class="tab" id="tab-mobile" role="tab" type="button" aria-selected="false">Mobiles BAZ-Dashboard</button>
-</div><div class="actions"><button type="button" class="action" id="reload">↻ Neu laden</button><a class="action" id="external" href="#" target="_blank" rel="noopener noreferrer">↗ Vollbild öffnen</a></div></div>
-<div class="note">Die App verwendet die bestehende Google-Apps-Script-Web-App. Dienst- und Personaldaten werden nicht auf GitHub gespeichert. Für Änderungen gelten die bestehenden Zugriffsrechte.</div>
-<div class="screen"><iframe id="appframe" title="Feuerwehr Dashboard" referrerpolicy="no-referrer" loading="eager" allow="fullscreen"></iframe>
-<div class="wait" id="wait"><div><strong id="waitTitle">Dashboard wird geladen…</strong><p id="waitText">Die Verbindung zu Google Apps Script wird geöffnet.</p><a id="waitLink" target="_blank" rel="noopener noreferrer" href="#">Stattdessen im Browser öffnen</a></div></div></div>
-<div class="foot">OVD-Zentrale · Feuerwehr St. Pölten-Stadt · Die ursprüngliche Infoscreen-Seite bleibt unverändert</div>
+<div class="toolbar"><strong>OVD-Dienste · OVD-Personal · Stunden & Berichte · Erinnerungen</strong><div class="actions"><button type="button" class="action" id="reload">↻ Neu laden</button><a class="action" id="external" target="_blank" rel="noopener noreferrer">↗ OVD-Vollbild</a></div></div>
+<div class="screen"><iframe id="appframe" title="OVD-Dienstzentrale" hidden referrerpolicy="strict-origin-when-cross-origin"></iframe>
+<div class="wait" id="wait"><div><strong id="waitTitle">OVD-Zentrale wird geladen …</strong><p id="waitText">Die eigenständige OVD-Ansicht wird geöffnet.</p><a id="waitLink" target="_blank" rel="noopener noreferrer">OVD-Seite direkt öffnen</a></div></div></div>
+<div class="foot">Nur OVD – keine Infoscreen-, BAZ-, Werkstatt- oder sonstigen Dashboard-Funktionen.</div>
 </main>
 <script>
 'use strict';
-const APP_URL='https://script.google.com/macros/s/AKfycbzXEPgwDEjn6iX5Vf73-kyX3g7D0pQtiygkP4xT6wQ7FZb0kplB_6JnCWO0a68zmAkL/exec';
-const frame=document.getElementById('appframe'),wait=document.getElementById('wait'),waitTitle=document.getElementById('waitTitle'),waitText=document.getElementById('waitText'),waitLink=document.getElementById('waitLink'),external=document.getElementById('external');
-let loadAttempt=0, current='ovd', slowTimer;
-function viewUrl(view){return APP_URL+(view==='mobile'?'?page=mobileapp':'');}
-function setView(view){current=view==='mobile'?'mobile':'ovd';document.getElementById('tab-ovd').setAttribute('aria-selected',String(current==='ovd'));document.getElementById('tab-mobile').setAttribute('aria-selected',String(current==='mobile'));if(location.hash.slice(1)!==current)history.replaceState(null,'','#'+current);loadView();}
-function loadView(){const url=viewUrl(current);external.href=url;waitLink.href=url;wait.hidden=false;waitTitle.textContent='Dashboard wird geladen…';waitText.textContent='Die Verbindung zu Google Apps Script wird geöffnet.';const attempt=++loadAttempt;clearTimeout(slowTimer);frame.src=url;slowTimer=setTimeout(()=>{if(attempt!==loadAttempt)return;waitTitle.textContent='Die Verbindung dauert länger';waitText.textContent='Falls das Dashboard hier nicht erscheint, öffne es über „Vollbild öffnen“. Deine OVD-Daten bleiben unverändert.';},12000);}
-frame.addEventListener('load',()=>{clearTimeout(slowTimer);wait.hidden=true;});
-document.getElementById('tab-ovd').addEventListener('click',()=>setView('ovd'));
-document.getElementById('tab-mobile').addEventListener('click',()=>setView('mobile'));
-document.getElementById('reload').addEventListener('click',loadView);
-window.addEventListener('hashchange',()=>setView(location.hash.slice(1)));
-window.addEventListener('offline',()=>{wait.hidden=false;waitTitle.textContent='Keine Internetverbindung';waitText.textContent='Die App benötigt eine Verbindung für aktuelle OVD-Dienstdaten.';});
-setView(location.hash.slice(1)==='mobile'?'mobile':'ovd');
+const APP_URL="https://script.google.com/macros/s/AKfycbzXEPgwDEjn6iX5Vf73-kyX3g7D0pQtiygkP4xT6wQ7FZb0kplB_6JnCWO0a68zmAkL/exec?page=ovdapp";
+const frame=document.getElementById('appframe'),wait=document.getElementById('wait'),waitTitle=document.getElementById('waitTitle'),waitText=document.getElementById('waitText');
+document.getElementById('external').href=APP_URL;document.getElementById('waitLink').href=APP_URL;
+let timer;
+function reloadOvd(){
+  clearTimeout(timer);frame.style.display='none';frame.hidden=true;wait.style.display='grid';wait.hidden=false;
+  waitTitle.textContent='OVD-Zentrale wird geladen …';waitText.textContent='Es wird ausschließlich die OVD-Seite geöffnet.';
+  frame.src=APP_URL+'&cb='+Date.now();
+  timer=setTimeout(()=>{
+    if(!wait.hidden){waitTitle.textContent='OVD-App noch nicht eingerichtet';waitText.textContent='Bitte die neue OVD-App-Seite einmalig in Google Apps Script einrichten und die Web-App neu bereitstellen. Andere Dashboard-Funktionen werden hier absichtlich nicht angezeigt.';}
+  },12000);
+}
+window.addEventListener('message',function(e){
+  if(!e.data||e.data.type!=='FFSTP_OVD_ONLY_READY'||e.data.version!==1)return;
+  if(!/^https:\/\/([^/]+\.)?googleusercontent\.com$/.test(e.origin)&&e.origin!=='https://script.google.com')return;
+  clearTimeout(timer);frame.hidden=false;frame.style.display='block';wait.hidden=true;wait.style.display='none';
+});
+document.getElementById('reload').addEventListener('click',reloadOvd);
+window.addEventListener('online',reloadOvd);
+window.addEventListener('offline',()=>{frame.style.display='none';wait.hidden=false;wait.style.display='grid';waitTitle.textContent='Keine Internetverbindung';waitText.textContent='OVD-Dienste benötigen eine Internetverbindung.'});
+reloadOvd();
 if('serviceWorker' in navigator)navigator.serviceWorker.register('./sw.js').catch(()=>{});
 </script></body></html>
