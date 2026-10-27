@@ -19,7 +19,7 @@ async function call(action,values={}){
 }
 function section(name){['setup','auth','app'].forEach(id=>$(id).hidden=id!==name);$('nav').hidden=name!=='app'}
 function signOut(message=true){state.token='';state.data=null;localStorage.removeItem('ovd_session');section('auth');if(message)notify('Erfolgreich abgemeldet.')}
-function bootstrap(){if(!state.api)return section('setup');if(!state.token)return section('auth');section('app');showView(['home','duties','swaps','profile'].includes(location.hash.slice(1))?location.hash.slice(1):'home');refresh()}
+function bootstrap(){if(!state.api){section('app');$('connection-notice').hidden=false;$('current-ovd').textContent='Noch nicht verbunden';$('next-time').textContent='Live-Dienste nach Serverfreigabe verfügbar';$('profile-name').textContent='OVD-App';$('push-button').disabled=true;$('logout').hidden=true;showView('home');empty($('home-duties'),'Die Dienste werden nach der Serverfreigabe automatisch geladen.');empty($('duties-list'),'Die Dienstübersicht ist noch nicht verbunden.');empty($('swaps-list'),'Tauschanfragen sind noch nicht verbunden.');status(false,'Einrichtung ausständig');return;} $('connection-notice').hidden=true;$('push-button').disabled=false;$('logout').hidden=false;if(!state.token)return section('auth');section('app');showView(['home','duties','swaps','profile'].includes(location.hash.slice(1))?location.hash.slice(1):'home');refresh()}
 async function refresh(){if(!state.token||state.busy)return;state.busy=true;try{state.data=await call('snapshot');render()}catch(e){notify(e.message)}finally{state.busy=false}}
 function showView(view){
  ['home','duties','swaps','profile'].forEach(x=>$(x+'-panel').hidden=x!==view);
