@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="de"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#101b2b"><meta name="description" content="OVD-Zentrale und mobiles BAZ-Dashboard der Feuerwehr St. Pölten-Stadt">
+<title>OVD-Zentrale | Feuerwehr St. Pölten-Stadt</title>
+<link rel="manifest" href="./manifest.webmanifest"><link rel="icon" href="./icon.svg" type="image/svg+xml">
+<style>
+:root{color-scheme:dark;--ink:#eef5ff;--muted:#a4b3c8;--bg:#0d1624;--panel:#152236;--line:#293a53;--brand:#d9ad53;--blue:#4a9ded}
+*{box-sizing:border-box}html,body{margin:0;min-height:100%;font:15px/1.45 system-ui,-apple-system,"Segoe UI",Arial,sans-serif;background:var(--bg);color:var(--ink)}
+body{min-height:100dvh;display:flex;flex-direction:column}button,a{font:inherit}button{cursor:pointer}
+.header{padding:max(18px,env(safe-area-inset-top)) max(18px,env(safe-area-inset-right)) 16px max(18px,env(safe-area-inset-left));background:linear-gradient(135deg,#172940,#0e1929 74%);border-bottom:1px solid var(--line)}
+.bar{max-width:1320px;margin:auto;display:flex;align-items:center;gap:13px}.mark{width:48px;height:48px;border-radius:14px;display:grid;place-items:center;background:#26354b;border:1px solid #465779;font-size:27px}
+.brand small{display:block;font-size:11px;font-weight:750;letter-spacing:.11em;color:var(--brand);text-transform:uppercase}.brand h1{margin:0;font-size:clamp(19px,3.8vw,26px);line-height:1.22;letter-spacing:-.025em}
+.meta{margin-left:auto;color:var(--muted);font-size:12px;display:flex;align-items:center;gap:7px}.dot{height:8px;width:8px;background:#50cb9b;border-radius:100%}
+main{max-width:1352px;width:100%;margin:auto;display:flex;flex:1;flex-direction:column;padding:16px;gap:12px;min-height:0}
+.toolbar{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}.tabs{display:flex;gap:7px;background:#111e2e;padding:6px;border:1px solid var(--line);border-radius:15px}.tab{border:0;border-radius:10px;background:transparent;color:#bac7db;padding:11px 15px;font-weight:750}.tab[aria-selected=true]{background:#2b527e;color:#fff;box-shadow:0 2px 9px #0003}
+.actions{display:flex;gap:8px}.action{display:inline-flex;align-items:center;justify-content:center;text-decoration:none;color:var(--ink);border:1px solid #4c607a;background:#1e3149;border-radius:10px;padding:10px 13px;font-weight:680}.action:focus-visible,.tab:focus-visible{outline:3px solid #8fbfff;outline-offset:2px}
+.note{padding:10px 14px;border:1px solid #5b4c30;color:#f0d5a0;background:#302b22;border-radius:10px;font-size:12px}
+.screen{position:relative;flex:1;min-height:570px;border:1px solid #34455d;border-radius:15px;overflow:hidden;background:#fff}
+.screen iframe{width:100%;height:100%;min-height:570px;border:0;display:block;background:white}
+.wait{position:absolute;inset:0;display:grid;place-items:center;background:#142035;color:#c1d2e8;text-align:center;padding:28px}.wait[hidden]{display:none}
+.wait strong{display:block;font-size:18px;margin-bottom:8px}.wait p{margin:0 auto 15px;max-width:460px;color:var(--muted)}.wait a{color:#abd3ff}
+.foot{font-size:11px;color:#8fa1b8;text-align:center;padding:2px 0 6px}
+@media(max-width:650px){.meta{display:none}.brand h1{font-size:19px}main{padding:10px;gap:9px}.toolbar{display:block}.tabs{width:100%}.tab{flex:1;font-size:13px;padding:12px 7px}.actions{margin-top:8px}.action{flex:1;font-size:13px}.screen,.screen iframe{min-height:calc(100dvh - 260px);border-radius:10px}.header{padding-bottom:13px}}
+</style></head>
+<body>
+<header class="header"><div class="bar"><div class="mark" aria-hidden="true">🚒</div><div class="brand"><small>Freiwillige Feuerwehr St. Pölten-Stadt</small><h1>OVD-Zentrale</h1></div><div class="meta"><span class="dot"></span> Live über das bestehende Dashboard</div></div></header>
+<main>
+<div class="toolbar"><div class="tabs" role="tablist" aria-label="Ansicht">
+<button class="tab" id="tab-ovd" role="tab" type="button" aria-selected="true">OVD-Verwaltung</button>
+<button class="tab" id="tab-mobile" role="tab" type="button" aria-selected="false">Mobiles BAZ-Dashboard</button>
+</div><div class="actions"><button type="button" class="action" id="reload">↻ Neu laden</button><a class="action" id="external" href="#" target="_blank" rel="noopener noreferrer">↗ Vollbild öffnen</a></div></div>
+<div class="note">Die App verwendet die bestehende Google-Apps-Script-Web-App. Dienst- und Personaldaten werden nicht auf GitHub gespeichert. Für Änderungen gelten die bestehenden Zugriffsrechte.</div>
+<div class="screen"><iframe id="appframe" title="Feuerwehr Dashboard" referrerpolicy="no-referrer" loading="eager" allow="fullscreen"></iframe>
+<div class="wait" id="wait"><div><strong id="waitTitle">Dashboard wird geladen…</strong><p id="waitText">Die Verbindung zu Google Apps Script wird geöffnet.</p><a id="waitLink" target="_blank" rel="noopener noreferrer" href="#">Stattdessen im Browser öffnen</a></div></div></div>
+<div class="foot">OVD-Zentrale · Feuerwehr St. Pölten-Stadt · Die ursprüngliche Infoscreen-Seite bleibt unverändert</div>
+</main>
+<script>
+'use strict';
+const APP_URL='https://script.google.com/macros/s/AKfycbzXEPgwDEjn6iX5Vf73-kyX3g7D0pQtiygkP4xT6wQ7FZb0kplB_6JnCWO0a68zmAkL/exec';
+const frame=document.getElementById('appframe'),wait=document.getElementById('wait'),waitTitle=document.getElementById('waitTitle'),waitText=document.getElementById('waitText'),waitLink=document.getElementById('waitLink'),external=document.getElementById('external');
+let loadAttempt=0, current='ovd', slowTimer;
+function viewUrl(view){return APP_URL+(view==='mobile'?'?page=mobileapp':'');}
+function setView(view){current=view==='mobile'?'mobile':'ovd';document.getElementById('tab-ovd').setAttribute('aria-selected',String(current==='ovd'));document.getElementById('tab-mobile').setAttribute('aria-selected',String(current==='mobile'));if(location.hash.slice(1)!==current)history.replaceState(null,'','#'+current);loadView();}
+function loadView(){const url=viewUrl(current);external.href=url;waitLink.href=url;wait.hidden=false;waitTitle.textContent='Dashboard wird geladen…';waitText.textContent='Die Verbindung zu Google Apps Script wird geöffnet.';const attempt=++loadAttempt;clearTimeout(slowTimer);frame.src=url;slowTimer=setTimeout(()=>{if(attempt!==loadAttempt)return;waitTitle.textContent='Die Verbindung dauert länger';waitText.textContent='Falls das Dashboard hier nicht erscheint, öffne es über „Vollbild öffnen“. Deine OVD-Daten bleiben unverändert.';},12000);}
+frame.addEventListener('load',()=>{clearTimeout(slowTimer);wait.hidden=true;});
+document.getElementById('tab-ovd').addEventListener('click',()=>setView('ovd'));
+document.getElementById('tab-mobile').addEventListener('click',()=>setView('mobile'));
+document.getElementById('reload').addEventListener('click',loadView);
+window.addEventListener('hashchange',()=>setView(location.hash.slice(1)));
+window.addEventListener('offline',()=>{wait.hidden=false;waitTitle.textContent='Keine Internetverbindung';waitText.textContent='Die App benötigt eine Verbindung für aktuelle OVD-Dienstdaten.';});
+setView(location.hash.slice(1)==='mobile'?'mobile':'ovd');
+if('serviceWorker' in navigator)navigator.serviceWorker.register('./sw.js').catch(()=>{});
+</script></body></html>
