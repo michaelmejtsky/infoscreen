@@ -1,25 +1,39 @@
 <!doctype html>
-<html lang="de"><head>
-<meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
-<meta name="robots" content="noindex,nofollow"/><title>BAZ 4.0 · Feuerwehr St. Pölten-Stadt</title>
-<link rel="stylesheet" href="/styles.css"/></head><body>
-<div class="shell">
- <aside class="sidebar"><div class="brand"><span class="brand-icon">🚒</span><div><strong>BAZ <span>4.0</span></strong><small>ST. PÖLTEN-STADT</small></div></div>
-  <div class="nav-caption">VERWALTUNG</div><nav id="nav"><button class="nav-item selected" data-screen="overview">▦ <span>Übersicht</span></button><button class="nav-item" data-screen="documents">▤ <span>Dokumente & Archiv</span></button></nav>
-  <div class="nav-caption">DIENSTBUCH & DATEIEN</div><nav><button class="nav-item" data-screen="db2">📖 <span>Dienstbuch V2</span></button><button class="nav-item" data-screen="links">📁 <span>Serverdokumente</span></button></nav><div class="nav-caption">BESTEHENDE MODULE (LESEND)</div><nav id="module-nav"><span class="loading">Lade Module …</span></nav>
-  <div class="nav-caption">ANZEIGEN · NUR LESEN</div><nav id="screen-nav"><button class="nav-item" data-screen="infoscreen-live">▣ <span>Infoscreen Live</span></button></nav>
-  <div class="nav-bottom"><span class="dot"></span><span id="status">Verbindung wird geprüft</span></div>
- </aside>
- <main class="main"><header class="top"><div><span class="eyebrow">FEUERWEHR ST. PÖLTEN-STADT</span><h1 id="page-title">Übersicht</h1></div><div class="user"><span id="role">–</span><strong id="username">–</strong></div></header>
-  <div id="banner" class="banner hidden"></div><section id="content" aria-live="polite"></section>
-  <footer>BAZ 4.0 · integrierte Testumgebung · Bestehende Alarm- und Dienstsysteme bleiben unverändert.</footer>
- </main>
-</div>
-<dialog id="upload-dialog"><form id="upload-form" class="form"><header><h2 id="upload-title">Dokument hinzufügen</h2><button type="button" class="icon-button" id="close-dialog" aria-label="Schließen">✕</button></header>
-<input type="hidden" name="document_id" id="document_id"/><input type="hidden" name="expected_version" id="expected_version"/>
-<label>Bezeichnung<input name="title" id="doc-title" required maxlength="150"/></label>
-<label>Kategorie<input name="category" id="doc-category" value="Allgemein" required maxlength="75"/></label>
-<label>Datei<input name="file" id="doc-file" type="file" required accept=".pdf,.docx,.xlsx,.xlsm,.txt,.odt,.ods,.csv,.jpg,.jpeg,.png"/></label>
-<p class="muted">Beim Ersetzen wird die bisherige Version auf dem Feuerwehrserver archiviert.</p>
-<div class="form-actions"><button type="button" class="secondary" id="cancel-upload">Abbrechen</button><button class="primary" type="submit" id="submit-upload">Speichern</button></div></form></dialog>
-<dialog id="db2-dialog"><form id="db2-form" class="form"><header><h2 id="db2-title">Dienstbuch-Eintrag</h2><button type="button" class="icon-button" id="db2-close" aria-label="Schließen">✕</button></header><div id="db2-fields"></div><div class="form-actions"><button type="button" class="secondary" id="db2-cancel">Abbrechen</button><button type="submit" class="primary" id="db2-submit">Speichern</button></div></form></dialog><script src="/app.js" defer></script></body></html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex,nofollow">
+<meta name="theme-color" content="#25346f">
+<title>BAZ · Feuerwehr St. Pölten-Stadt – Originalansicht</title>
+<link rel="stylesheet" href="/bridge.css">
+</head>
+<body>
+<main id="surface" aria-label="Originales Werkstatt- und BAZ-Dashboard">
+  <iframe id="baz-original" title="Originales Werkstatt- und BAZ-Dashboard" allow="clipboard-read; clipboard-write; fullscreen" loading="eager" referrerpolicy="no-referrer"></iframe>
+  <div id="loading" class="loading" role="status" aria-live="polite">
+    <div class="loading-card"><div class="loader" aria-hidden="true"></div>
+      <strong>Originale BAZ wird geöffnet …</strong>
+      <p>Die bisherigen Google-Sheets-Daten und Funktionen werden weiterhin vom bestehenden Apps Script geladen.</p>
+      <a id="loading-direct" target="_blank" rel="noopener noreferrer" href="https://script.google.com/macros/s/AKfycbzXEPgwDEjn6iX5Vf73-kyX3g7D0pQtiygkP4xT6wQ7FZb0kplB_6JnCWO0a68zmAkL/exec">BAZ direkt öffnen</a>
+    </div>
+  </div>
+  <div id="fallback" class="fallback" hidden role="alert">
+    <span>Die eingebettete BAZ konnte noch nicht geladen werden.</span>
+    <a id="fallback-direct" target="_blank" rel="noopener noreferrer" href="https://script.google.com/macros/s/AKfycbzXEPgwDEjn6iX5Vf73-kyX3g7D0pQtiygkP4xT6wQ7FZb0kplB_6JnCWO0a68zmAkL/exec">Original direkt öffnen</a>
+    <button type="button" id="retry">Erneut laden</button>
+  </div>
+  <button class="tools-button" id="tools-toggle" type="button" title="Kompatibilitäts-Testwerkzeuge" aria-expanded="false" aria-controls="tools">⋯</button>
+  <nav id="tools" class="tools" aria-label="Ansicht und Testversion" hidden>
+    <strong>BAZ 4.0 · Kompatibilitätsmodus</strong>
+    <p>Hier läuft die originale BAZ mit ihrem bestehenden Apps-Script-Backend. Noch keine Cloudflare-Datenmigration.</p>
+    <a id="direct" href="https://script.google.com/macros/s/AKfycbzXEPgwDEjn6iX5Vf73-kyX3g7D0pQtiygkP4xT6wQ7FZb0kplB_6JnCWO0a68zmAkL/exec" target="_blank" rel="noopener noreferrer">Original direkt öffnen ↗</a>
+    <a href="/?mode=desktop">Desktopansicht</a>
+    <a href="/?mode=mobile">Mobile Ansicht</a>
+    <a href="/pilot/">Bisherige BAZ-4.0-Pilotansicht</a>
+  </nav>
+  <noscript><div class="fallback" style="display:block">Für die eingebettete Anzeige ist JavaScript notwendig. <a href="https://script.google.com/macros/s/AKfycbzXEPgwDEjn6iX5Vf73-kyX3g7D0pQtiygkP4xT6wQ7FZb0kplB_6JnCWO0a68zmAkL/exec">Originale BAZ öffnen</a>.</div></noscript>
+</main>
+<script src="/bridge.js" defer></script>
+</body>
+</html>

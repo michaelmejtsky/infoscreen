@@ -1,38 +1,36 @@
-# BAZ 4.0 V0.3 – Cloudflare Workers Testbranch
+# BAZ 4.0 · Original-Kompatibilitätsbranch (V0.4)
 
-**Nur schreibgeschützter Pilot.** Bestehende BAZ und den produktiven GitHub-Pages-Infoscreen keinesfalls überschreiben.
+**Zweck:** Die bestehende Werkstatt-/BAZ-Oberfläche **1:1 anzeigen und ihre bestehenden Google-Sheets- und Apps-Script-Funktionen weiterverwenden**, anstatt eine unvollständige Demo mit neuer Menüstruktur als Ersatz auszugeben.
 
-## Richtiges Deployment: Cloudflare Workers (nicht Cloudflare Pages)
+- Repository: `michaelmejtsky/infoscreen`
+- **Nur Testbranch:** `baz4-v0-4-original-kompatibilitaet`
+- Cloudflare Workers-Einstieg: `src/worker.js`, Assets `public/`, Konfiguration `wrangler.jsonc`
+- Neue Startseite `public/index.html` zeigt die originale Apps-Script-Webapp in einem bildschirmfüllenden iframe.
+- `?mode=desktop` zeigt originale Desktop-Baz mit Reitern, `?mode=mobile` das originale Mobile-Dashboard.
+- Kleiner Button **⋯** oben rechts enthält Direktlink, Ansichtwechsel, bisherigen Pilot unter `/pilot/`.
+- `/pilot/` ist die bisherige V0.3-Oberfläche mit Demonstrationsdaten.
+- Die schon vorhandene API `/api/v1/health` bleibt als **schreibgeschützter Demo-Worker** erhalten.
 
-Das bestehende Cloudflare-Projekt heißt `infoscreen` und ist ein **Worker**. Dessen Worker-URL endet auf `workers.dev`.
+### Wichtige technische Grenzen
 
-- Verbundenes GitHub-Repository: `michaelmejtsky/infoscreen`
-- Testbranch: `baz4-v0-3-cloudflare-test`
-- Datei `wrangler.jsonc` im Repository-Stamm: Cloudflare-Worker-Konfiguration
-- `src/worker.js`: echte Worker-Einstiegsdatei für API-Operationen
-- `public/index.html`, `public/styles.css`, `public/app.js`: statische BAZ-4.0-Oberfläche
-- `run_worker_first: ["/api/*"]`: API-Anfragen erreichen Worker-Code statt HTTP 404 aus dem Asset-Server
-- `BAZ4_DEMO: "true"`: serverseitig alle Schreibvorgänge gesperrt
+Dies ist eine **Kompatibilitätsbrücke, keine Apps-Script-Migration**. Alle echten Datenzugriffe, Schreibvorgänge, Kalender, PDF-Funktionen und E-Mails werden in der bestehenden Apps-Script-Webapp ausgeführt. Google Sheets und die Produktions-Skripte werden durch dieses Repository nicht verändert.
 
-### Einstellungen im Cloudflare-Dashboard
+- Funktionalität setzt voraus, dass die bestehende Apps-Script-Webapp erreichbar ist und dass die Benutzerzugriffe in einem eingebetteten Fenster vom Browser zugelassen werden.
+- Apps Script `doGet` verwendet `HtmlService.XFrameOptionsMode.ALLOWALL` für Desktop und Mobil; die schon bestehende DashboardAPP-PWA zeigt die mobile Anwendung erfolgreich über iframe an. Die neue Cloudflare-Desktop-Einbettung ist damit *nicht automatisch vollständig getestet*.
+- Falls Google-Anmeldung/iframe/Browserregeln blockieren: über **⋯ → Original direkt öffnen** den bestehenden Web-App-Link aufrufen.
+- Die angebundene BAZ behält ihre bisherige Geschwindigkeit; keine falschen Versprechen über Cloudflare-Beschleunigung.
+- Eine vollständige Daten- und Funktionsmigration verlangt separate API-Implementierung und Tests für alle RPCs, Berechtigungen, Trigger, Kalender und Nachrichten. Die bisherige Sheets-API-Demo darf nicht als Ersatz freigeschaltet werden.
+- Excel-Dienstbuch `Dienstbuch(2).xlsm` bleibt ein separates, noch nicht vollständig migriertes Projekt (VBA, ActiveX, SMB-Pfade, Windows-Dateibrücke, makrotreue Spiegelung).
 
-Unter **Workers & Pages → infoscreen → Settings → Build** den GitHub-Branch und die Deployments überprüfen:
+**Sicherheit:** Das GitHub-Repository ist öffentlich. Keine Schlüssel, Personendaten, internen Dateipfade oder dienstlichen Dokumente in GitHub übertragen. Der direkte Live-Link war bereits im bestehenden DashboardAPP-Repository veröffentlicht.
 
-- Production branch kann beim bestehenden Projekt abweichen. **Nicht das ursprüngliche Infoscreen-Produktionssystem verändern.**
-- **Non-production branch builds / Worker Previews** für den Testbranch aktivieren.
-- Build command: leer, wenn Cloudflare Build das Projekt direkt erkennt.
-- Deploy command: `npx wrangler deploy --config wrangler.jsonc` falls kein automatischer Deploy-Befehl eingetragen ist.
-- Root directory: Repository-Stamm.
-- Preview URL aus Cloudflare **Deployments** übernehmen; nicht aus dem Branchnamen erraten.
+### Deployment
 
-Der Branch-Preview-Aufruf `/api/v1/health` muss `{"ok":true,"mode":"demo","readOnly":true}` liefern. Bei HTTP 404 wurde noch die alte Asset-only-Bereitstellung veröffentlicht oder die Vorschau ist nicht online.
+Cloudflare Workers: verbundenes Repository `michaelmejtsky/infoscreen`, Testbranch `baz4-v0-4-original-kompatibilitaet`, `npx wrangler deploy --config wrangler.jsonc` als Deployment-Befehl. **Die produktive GitHub-Pages-Infoscreen-Anzeige auf `main` nicht verändern.** Vor Branchwechsel zuerst eine Cloudflare-Preview verifizieren. Für den Rollback zurück auf `baz4-v0-3-cloudflare-test`.
 
-### Bestehende Projekte und Sicherheit
+### Technischer Bestand aus dem Originalexport
 
-Der GitHub-Branch `main` von `michaelmejtsky/infoscreen` und der bestehende Ordner `ovd/` werden nicht bearbeitet. Dieser Testbranch ersetzt **weder** den aktiven Apps-Script-Infoscreen noch die OVD-Verwaltung.
-
-`Infoscreen Live` in BAZ 4.0 ist nur eine schreibgeschützte Vorschau des öffentlichen Infoscreens. Bestehende Alarm-, Dienst- und Verwaltungssysteme werden nicht geändert.
-
-Dieses Repository ist öffentlich. Keine Zugangsdaten, internen Serverpfade, Einsatzdaten oder personenbezogenen Informationen in GitHub einchecken. Für die spätere Freigabe Cloudflare Access, separaten internen Python-Service, freigegebene Sheets-Testkopie und vollständige Integrations-/Sicherheitstests vorsehen.
-
-**Pilotstatus:** Nur Demooberfläche und API-Verbindungsprüfung. Kein produktiver Schreibbetrieb.
+- `Code.gs` liefert `Index` als Desktop- und `Mobile` bei `?page=mobileapp`.
+- Beide Seiten werden mit `setXFrameOptionsMode(HtmlService.XFrameOptionsMode.ALLOWALL)` ausgeliefert.
+- Originales Desktopmenü: ZDL-Mängel, Werkstatt, Haustechnik, BAZ, Infoscreen, Verleihliste, Mitarbeiter, Login, Zivildiener/Verwaltung, OVD-Dienste, Wetterlage.
+- Bereits 76 `google.script.run`-Aufrufe in `Index.html` und 39 in `Mobile.html` – **ein bloßer Tabellen-Leseadapter deckt diese Semantik nicht ab**.
