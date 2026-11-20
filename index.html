@@ -194,6 +194,7 @@
     // ?room=ls1 / ?room=ls2 / ?room=ls3 usw. wird jetzt
     // an das Apps Script weitergegeben.
     const ROOM = (params.get("room") || "ls1").trim();
+    const IDLE = (params.get("idle") || "kdo").trim();
 
     const frame = document.getElementById("dashboardFrame");
     const offline = document.getElementById("offlineFallback");
