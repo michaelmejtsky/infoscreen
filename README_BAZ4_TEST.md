@@ -1,30 +1,38 @@
-# BAZ 4.0 – isolierter Cloudflare-Testbranch
+# BAZ 4.0 V0.3 – Cloudflare Workers Testbranch
 
-**Nur ein Pilot mit Demodaten und gesperrten Schreibvorgängen. Nicht für den produktiven BAZ-Dienst freigeben.**
+**Nur schreibgeschützter Pilot.** Bestehende BAZ und den produktiven GitHub-Pages-Infoscreen keinesfalls überschreiben.
 
-## Cloudflare Pages mit dem bereits verbundenen Repository
+## Richtiges Deployment: Cloudflare Workers (nicht Cloudflare Pages)
 
-- Repository: `michaelmejtsky/infoscreen`
-- Branch für dieses neue **Testprojekt**: `baz4-v0-3-cloudflare-test`
-- Framework: `None`
-- Build-Befehl: leer
-- Ausgabeordner: `.` (Repository-Stamm)
-- Dashboard: Pages-Projekt → Settings → Builds → Branch control → Production branch ändern.
+Das bestehende Cloudflare-Projekt heißt `infoscreen` und ist ein **Worker**. Dessen Worker-URL endet auf `workers.dev`.
 
-Die Dateien `index.html`, `styles.css`, `app.js` und `_worker.js` enthalten die V0.3-Testoberfläche und eine Worker-API. Der Worker verwendet Cloudflare Pages `env.ASSETS`. Ohne explizite Konfiguration bleibt `BAZ4_DEMO` aktiv (alle Schreibvorgänge gesperrt).
+- Verbundenes GitHub-Repository: `michaelmejtsky/infoscreen`
+- Testbranch: `baz4-v0-3-cloudflare-test`
+- Datei `wrangler.jsonc` im Repository-Stamm: Cloudflare-Worker-Konfiguration
+- `src/worker.js`: echte Worker-Einstiegsdatei für API-Operationen
+- `public/index.html`, `public/styles.css`, `public/app.js`: statische BAZ-4.0-Oberfläche
+- `run_worker_first: ["/api/*"]`: API-Anfragen erreichen Worker-Code statt HTTP 404 aus dem Asset-Server
+- `BAZ4_DEMO: "true"`: serverseitig alle Schreibvorgänge gesperrt
 
-**Vermeide unbedingt** `BAZ4_DEMO=false` ohne vollständig konfigurierte Cloudflare Access-Anmeldung, abgesicherten Python-Dokumentendienst, eigene Testdatenbank und Vor-Ort-Tests.
+### Einstellungen im Cloudflare-Dashboard
 
-## Verbindung zum bestehenden Infoscreen
+Unter **Workers & Pages → infoscreen → Settings → Build** den GitHub-Branch und die Deployments überprüfen:
 
-Die Oberfläche enthält `Infoscreen Live` mit manuell ladbarer Vorschau von
-https://michaelmejtsky.github.io/infoscreen/ .
-Sie **ändert keine** Apps-Script-, PlaySignage-, OVD- oder GitHub-Pages-Endpunkte.
+- Production branch kann beim bestehenden Projekt abweichen. **Nicht das ursprüngliche Infoscreen-Produktionssystem verändern.**
+- **Non-production branch builds / Worker Previews** für den Testbranch aktivieren.
+- Build command: leer, wenn Cloudflare Build das Projekt direkt erkennt.
+- Deploy command: `npx wrangler deploy --config wrangler.jsonc` falls kein automatischer Deploy-Befehl eingetragen ist.
+- Root directory: Repository-Stamm.
+- Preview URL aus Cloudflare **Deployments** übernehmen; nicht aus dem Branchnamen erraten.
 
-Der Branch `main` behält die bisherige produktive Infoscreen-Seite unverändert bei. Die existierende `ovd/`-Ordnerstruktur wird auf diesem Branch übernommen, aber nicht verändert oder in die neue BAZ 4.0 migriert. Der dortige OVD-Client hat derzeit keine konfigurierte API.
+Der Branch-Preview-Aufruf `/api/v1/health` muss `{"ok":true,"mode":"demo","readOnly":true}` liefern. Bei HTTP 404 wurde noch die alte Asset-only-Bereitstellung veröffentlicht oder die Vorschau ist nicht online.
 
-**Hinweis zur Sicherheit:** Dieses GitHub-Repository ist öffentlich. Keine personenbezogenen Dienstbuchdaten, Einsatzdaten, privaten Dateipfade oder Schlüssel ins Repository committen. Alle Secrets ausschließlich über die abgesicherte Cloudflare-Umgebung konfigurieren.
+### Bestehende Projekte und Sicherheit
 
-## Rollback
+Der GitHub-Branch `main` von `michaelmejtsky/infoscreen` und der bestehende Ordner `ovd/` werden nicht bearbeitet. Dieser Testbranch ersetzt **weder** den aktiven Apps-Script-Infoscreen noch die OVD-Verwaltung.
 
-Das neue Cloudflare-Testprojekt kann auf einen anderen Branch oder eine vorherige Deployment-Version zurückgestellt werden. Die bestehende GitHub-Pages-Infoscreen-Seite auf `main` wird von diesem Pilotbranch nicht beeinflusst.
+`Infoscreen Live` in BAZ 4.0 ist nur eine schreibgeschützte Vorschau des öffentlichen Infoscreens. Bestehende Alarm-, Dienst- und Verwaltungssysteme werden nicht geändert.
+
+Dieses Repository ist öffentlich. Keine Zugangsdaten, internen Serverpfade, Einsatzdaten oder personenbezogenen Informationen in GitHub einchecken. Für die spätere Freigabe Cloudflare Access, separaten internen Python-Service, freigegebene Sheets-Testkopie und vollständige Integrations-/Sicherheitstests vorsehen.
+
+**Pilotstatus:** Nur Demooberfläche und API-Verbindungsprüfung. Kein produktiver Schreibbetrieb.
